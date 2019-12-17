@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="ingredients">
+        <div class="header" id="myHeader">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="{% static 'img/CGLogo.png' %}" style="width:30px;height:30px;">
+                </a>
+            </div>
+
+            <div class="header-right">
+                <a href="{% url 'leaderboards' %}">
+                    <button>Leaderboards</button>
+                </a>
+                <a href="{% url 'becomepremium' %}">
+                    <button>Become Premium</button>
+                </a>
+                <a href="{% url 'login' %}">
+                    <button>Log In</button>
+                </a>
+                <a href="{% url 'register' %}">
+                    <button>Register</button>
+                </a>
+                <input type="text" placeholder="Search..">
+                <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;"></button>
+            </div>
+
+
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% block content1 %}
+    {% endblock %}
+</div>
+</body>
+</html>

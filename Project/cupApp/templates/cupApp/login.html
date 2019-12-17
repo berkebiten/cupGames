@@ -1,0 +1,28 @@
+{% extends 'cupApp/base.html' %}
+
+{% block content %}
+    <div class="login">
+        <h1>LOGIN PAGE</h1>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="text" id="username" placeholder="Enter Username" name="username" required>
+            <input type="password" id="password" placeholder="Enter Password" name="password" required>
+            <input type="submit">Login</input>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+
+            <span class="psw"><a href="ForgotPassword.html">Forgot password?</a></span>
+        </form>
+    </div>
+{% endblock %}
+{% block content1 %}
+    <div class="bottom">
+        <div class="paragraph">
+            <p>CUPGAMES IS A WEBSITE WITH SMALL GAMES. CREATED BY BERKE BITEN & ALI ATAHAN TOPAL</p>
+        </div>
+        <div class="suggest">
+            <button onclick="window.location.href = 'SuggestGameGuest.html';"> Suggest a Game</button>
+        </div>
+    </div>
+{% endblock %}
