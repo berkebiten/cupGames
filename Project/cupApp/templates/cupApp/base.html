@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    {% block content1 %}
+    {% endblock %}
+    <script src="{% static 'js/script1.js' %}"></script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -17,7 +18,7 @@
     <div class="ingredients">
         <div class="header" id="myHeader">
             <div class="logo">
-                <a href="index.html">
+                <a href="{% url 'index' %}">
                     <img src="{% static 'img/CGLogo.png' %}" style="width:30px;height:30px;">
                 </a>
             </div>
@@ -29,14 +30,29 @@
                 <a href="{% url 'becomepremium' %}">
                     <button>Become Premium</button>
                 </a>
-                <a href="{% url 'login' %}">
-                    <button>Log In</button>
-                </a>
-                <a href="{% url 'register' %}">
-                    <button>Register</button>
-                </a>
-                <input type="text" placeholder="Search..">
-                <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;"></button>
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'profile' %}">
+                        <button>{{ user.username }}</button>
+                    </a>
+                    <a href="{% url 'logoutpage' %}">
+                        <button>Sign Out</button>
+                    </a>
+                    <input type="text" placeholder="Search..">
+                    <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;">
+                    </button>
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+                        <button>Log In</button>
+                    </a>
+                    <a href="{% url 'register' %}">
+                        <button>Register</button>
+                    </a>
+                    <input type="text" placeholder="Search..">
+                    <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;">
+                    </button>
+                {% endif %}
             </div>
 
 
@@ -45,8 +61,14 @@
         {% block content %}
         {% endblock %}
     </div>
-    {% block content1 %}
-    {% endblock %}
+    <div class="bottom">
+        <div class="paragraph">
+            <p>CUPGAMES IS A WEBSITE WITH SMALL GAMES. CREATED BY BERKE BITEN & ALI ATAHAN TOPAL</p>
+        </div>
+        <div class="suggest">
+            <button onclick="window.location.href = 'SuggestGameGuest.html';"> Suggest a Game</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>

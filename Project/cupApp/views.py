@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -26,7 +26,7 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
+                auth_login(request, user)
                 return HttpResponseRedirect(reverse('index'))
             else:
                 return HttpResponse("Your account was inactive.")
@@ -42,8 +42,18 @@ def register(request):
     return render(request, 'cupApp/register.html')
 
 
+def logoutpage(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+
+def profile(request):
+    return render(request, 'cupApp/profile.html')
+
+
 def leaderboards(request):
-    return render(request, 'cupApp/leaderboards.html')
+    scores = Score.objects.filter(score__gte=0).order_by('-score')
+    return render(request, 'cupApp/leaderboards.html', {'scores' : scores})
 
 
 def becomepremium(request):
@@ -56,8 +66,12 @@ def gamepage(request, pk):
 
 
 def categorypage(request, pk):
+    games = Game.objects.filter(added_date__lte=timezone.now()).order_by('-added_date')
+    games2 = Game.objects.filter(play_count__gte=0).order_by('-play_count')
+    games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
+    categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
     category = get_object_or_404(Category, pk=pk)
-    return render(request, 'cupApp/categorypage.html', {'category': category})
+    return render(request, 'cupApp/categorypage.html', {'category': category, 'games': games, 'games2': games2, 'games3': games3, 'categorys': categorys})
 
 
 def account_new(request):

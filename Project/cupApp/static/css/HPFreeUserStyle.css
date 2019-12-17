@@ -15,7 +15,8 @@ body {
 .ingredients {
     height:110vh;
     background-color: pink;
-
+    margin-right: 15%;
+    margin-left: 15%;
 }
 
 .header {
@@ -61,31 +62,6 @@ body {
     margin-bottom: auto;
     margin-right: 16px;
     font-size: 17px;
-}
-
-.tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-}
-
-.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-}
-
-.tab button:hover {
-    background-color: #ddd;
-}
-
-.tab button.active {
-    background-color: #ccc;
 }
 
 .header-right button{
@@ -138,11 +114,6 @@ body {
 .tab1{
     background-color:pink;
 }
-.tab2{
-    width:82%;
-    margin-left:10px;
-}
-
 
 .categoryBar {
     width: 13%;
@@ -179,13 +150,6 @@ body {
     white-space: nowrap;
     margin: 10px;
 
-}
-
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
 }
 
 .gamepart {
@@ -284,7 +248,8 @@ body {
 .bottom {
     background-color: white;
     margin-bottom:10px;
-
+    margin-right: 15%;
+    margin-left: 15%;
     height: 150px;
 
 }
@@ -323,59 +288,4 @@ body {
 .suggest button:active {
     position: relative;
     top: 1px;
-}
-
-form {
-    border: 3px solid #f1f1f1;
-}
-
-input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-.login button {
-    float:right;
-    width: 55%;
-    box-shadow: inset 0px 1px 0px 0px #ffffff;
-    background: #ededed linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
-    border-radius: 6px;
-    border: 1px solid #dcdcdc;
-    display: inline-block;
-    cursor: pointer;
-    color: #777777;
-    font-family: Arial;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 6px 24px;
-    text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
-}
-
-.login button:hover {
-    background: #dfdfdf linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
-}
-.login button:active {
-    position: relative;
-    top: 1px;
-}
-.login {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: pink;
-    margin-right: auto;
-    margin-left: auto;
-    width: 20%;
-    padding: 16px;
-}
-
-span.psw {
-    float: left;
-    padding-top: 16px;
 }
