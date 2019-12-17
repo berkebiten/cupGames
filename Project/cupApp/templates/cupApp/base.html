@@ -30,10 +30,10 @@
                 <a href="{% url 'becomepremium' %}">
                     <button>Become Premium</button>
                 </a>
-                {% if user.is_authenticated %}
+                {% if request.session.username %}
 
                     <a href="{% url 'profile' %}">
-                        <button>{{ user.username }}</button>
+                        <button>{{ request.session.username }}</button>
                     </a>
                     <a href="{% url 'logoutpage' %}">
                         <button>Sign Out</button>

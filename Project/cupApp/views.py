@@ -21,21 +21,17 @@ def index(request):
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                auth_login(request, user)
-                return HttpResponseRedirect(reverse('index'))
-            else:
-                return HttpResponse("Your account was inactive.")
+        username = request.POST['username']
+        password = request.POST['password']
+        user_check = Account.objects.filter(username=username, password=password)
+
+        if user_check:
+            username = request.POST['username']
+            request.session['username'] = username
+            return redirect("index")
         else:
-            print("someone tried to login and failed")
-            print("They used username: {} and password: {}".format(username, password))
-            return HttpResponse("Invalid login details given")
-    else:
-        return render(request, 'cupApp/login.html', {})
+            return render(request, 'cupApp/index.html', {})
+    return render(request, 'cupApp/login.html', {})
 
 
 def register(request):
@@ -43,6 +39,7 @@ def register(request):
 
 
 def logoutpage(request):
+    del request.session['username']
     logout(request)
     return HttpResponseRedirect(reverse('index'))
 
@@ -53,7 +50,7 @@ def profile(request):
 
 def leaderboards(request):
     scores = Score.objects.filter(score__gte=0).order_by('-score')
-    return render(request, 'cupApp/leaderboards.html', {'scores' : scores})
+    return render(request, 'cupApp/leaderboards.html', {'scores': scores})
 
 
 def becomepremium(request):
@@ -71,7 +68,8 @@ def categorypage(request, pk):
     games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
     category = get_object_or_404(Category, pk=pk)
-    return render(request, 'cupApp/categorypage.html', {'category': category, 'games': games, 'games2': games2, 'games3': games3, 'categorys': categorys})
+    return render(request, 'cupApp/categorypage.html',
+                  {'category': category, 'games': games, 'games2': games2, 'games3': games3, 'categorys': categorys})
 
 
 def account_new(request):
