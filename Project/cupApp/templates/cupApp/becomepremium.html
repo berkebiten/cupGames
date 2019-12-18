@@ -1,24 +1,35 @@
 {% extends 'cupApp/base.html' %}
-<link rel="stylesheet" href="{% static 'css/BecomePremium.css' %}">
-{% block content %}
-<!--if user is not authenticated!-->
-    <div class="login">
-        <p>You have to be logged in to become a premium user.</p>
-        <div class="buttons">
-            <button onclick="window.location.href = 'LoginPage.html';">Log In</button>
-            <button onclick="window.location.href = 'RegisterPage.html';">Register</button>
-        </div>
-    </div>
 
-<!--if user is authenticated!!-->
-    <div class="login">
-        <h2>Your coin balance: "coin"</h2>
-        <h2>Premium cost: "premiumcost"</h2>
-        <h2>Do you want to spend your coins and become a premium?</h2>
-        <div class="buttons">
-            <button onclick="window.location.href = 'HomepagePremium.html';">Yes</button>
-            <button onclick="window.location.href = 'HomepageUser.html';">No</button>
+{% block content %}
+
+
+
+    {% if request.session.username %}
+        <div class="login">
+            <h2>Your coin balance: "coin"</h2>
+            <h2>Premium cost: "premiumcost"</h2>
+            <h2>Do you want to spend your coins and become a premium?</h2>
+            <div class="buttons">
+                <a href="{% url 'premiumprocess' pk=request.session.username %}">
+                    <button>Yes</button>
+                </a>
+                <a href="{% url '' %}">
+                    <button>No</button>
+                </a>
+            </div>
         </div>
-    </div>
+    {% else %}
+        <div class="login">
+            <p>You have to be logged in to become a premium user.</p>
+            <div class="buttons">
+                <a href="{% url 'login' %}">
+                    <button>Log In</button>
+                </a>
+                <a href="{% url 'register' %}">
+                    <button>Register</button>
+                </a>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

@@ -16,18 +16,19 @@ def index(request):
     games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
     return render(request, 'cupApp/index.html',
-                  {'games': games, 'scores': scores, 'games2': games2, 'games3': games3, 'categorys': categorys})
+              {'games': games, 'scores': scores, 'games2': games2, 'games3': games3, 'categorys': categorys})
 
 
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user_check = Account.objects.filter(username=username, password=password)
+        accounts = Account.objects.filter(username=username, password=password)
 
-        if user_check:
+        if accounts:
             username = request.POST['username']
             request.session['username'] = username
+            request.session['success'] = True
             return redirect("index")
         else:
             return render(request, 'cupApp/index.html', {})
@@ -35,11 +36,26 @@ def login(request):
 
 
 def register(request):
-    return render(request, 'cupApp/register.html')
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            account = form.save()
+            account.refresh_from_db()
+            account.username = form.cleaned_data.get('username')
+            account.password = form.cleaned_data.get('password')
+            account.email = form.cleaned_data.get('email')
+            account.gender = form.cleaned_data.get('gender')
+            account.date_of_birth = form.cleaned_data.get('date_of_birth')
+            account.save()
+            return redirect('login')
+    else:
+        form = RegisterForm()
+    return render(request, 'cupApp/register.html', {'form': form})
 
 
 def logoutpage(request):
     del request.session['username']
+    request.session['success'] = False
     logout(request)
     return HttpResponseRedirect(reverse('index'))
 
@@ -82,3 +98,8 @@ def account_new(request):
     else:
         form = RegisterForm()
     return render(request, 'cupApp/account_edit.html', {'form': form})
+
+
+def premiumprocess(request, pk):
+    accounts = get_object_or_404(Account, pk = pk)
+    accounts

@@ -41,6 +41,7 @@
                     <input type="text" placeholder="Search..">
                     <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;">
                     </button>
+
                 {% else %}
 
                     <a href="{% url 'login' %}">
@@ -52,12 +53,21 @@
                     <input type="text" placeholder="Search..">
                     <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;">
                     </button>
+
                 {% endif %}
             </div>
-
-
         </div>
 
+        {% if request.session.username %}
+            <div class="header2">
+                <p1>Welcome, {{ request.session.username }}</p1>
+                <p2>You can play "{{ accounts.playLimit }}" more games in "number" hours.</p2>
+            </div>
+        {% else %}
+            <div class="header2">
+                <p1>Welcome, Guest</p1>
+            </div>
+        {% endif %}
         {% block content %}
         {% endblock %}
     </div>
