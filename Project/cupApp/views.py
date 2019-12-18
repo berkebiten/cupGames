@@ -60,7 +60,7 @@ def logoutpage(request):
     return HttpResponseRedirect(reverse('index'))
 
 
-def profile(request):
+def profile(request, pk):
     return render(request, 'cupApp/profile.html')
 
 

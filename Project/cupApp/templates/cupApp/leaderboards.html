@@ -1,28 +1,32 @@
 {% extends 'cupApp/base.html' %}
 
 {% block content %}
-<div class="tab">
-            <button class="tablinks" onclick="tab(event, 'General')" id="defaultOpen">General</button>
-            <button class="tablinks" onclick="tab(event, 'Weekly')">Weekly</button>
-            <button class="tablinks" onclick="tab(event, 'Monthly')">Monthly</button>
-        </div>
-
+    <style>
+        .ingredients {
+            height: 90vh;
+        }
+    </style>
+    <div class="tab">
+        <button class="tablinks" onclick="tab(event, 'General')" id="defaultOpen">General</button>
+        <button class="tablinks" onclick="tab(event, 'Weekly')">Weekly</button>
+        <button class="tablinks" onclick="tab(event, 'Monthly')">Monthly</button>
+    </div>
+    <div class="leaderboardtables">
         <div id="Weekly" class="tabcontent">
             <div class="leaderboard">
-                <p>WEEKLY LEADERBOARD</p>
                 <table align="center">
                     <tr>
                         <th>username</th>
                         <th>score</th>
                     </tr>
                     {% for score in scores %}
-                    {% if forloop.counter <= 10 %}
-                        <tr>
-                            <td>{{ score.username }}</td>
-                            <td>{{ score.score }}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
+                        {% if forloop.counter <= 10 %}
+                            <tr>
+                                <td>{{ score.username }}</td>
+                                <td>{{ score.score }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
                 </table>
             </div>
 
@@ -30,20 +34,19 @@
 
         <div id="Monthly" class="tabcontent">
             <div class="leaderboard">
-                <p>MONTHLY LEADERBOARD</p>
                 <table align="center">
                     <tr>
                         <th>username</th>
                         <th>score</th>
                     </tr>
                     {% for score in scores %}
-                    {% if forloop.counter <= 10 %}
-                        <tr>
-                            <td>{{ score.username }}</td>
-                            <td>{{ score.score }}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
+                        {% if forloop.counter <= 10 %}
+                            <tr>
+                                <td>{{ score.username }}</td>
+                                <td>{{ score.score }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
                 </table>
             </div>
 
@@ -51,22 +54,22 @@
 
         <div id="General" class="tabcontent">
             <div class="leaderboard">
-                <p>GENERAL LEADERBOARD</p>
                 <table align="center">
                     <tr>
                         <th>username</th>
                         <th>score</th>
                     </tr>
                     {% for score in scores %}
-                    {% if forloop.counter <= 10 %}
-                        <tr>
-                            <td>{{ score.username }}</td>
-                            <td>{{ score.score }}</td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
+                        {% if forloop.counter <= 10 %}
+                            <tr>
+                                <td>{{ score.username }}</td>
+                                <td>{{ score.score }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
                 </table>
             </div>
         </div>
+    </div>
 
 {% endblock %}

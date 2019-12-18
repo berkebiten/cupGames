@@ -2,16 +2,17 @@
 
 <!DOCTYPE html>
 <html lang="en">
+<title>cupGames</title>
 <head>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     {% block content1 %}
     {% endblock %}
     <script src="{% static 'js/script1.js' %}"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
+
 </head>
 <body>
 <div class="container">
@@ -19,27 +20,31 @@
         <div class="header" id="myHeader">
             <div class="logo">
                 <a href="{% url 'index' %}">
-                    <img src="{% static 'img/CGLogo.png' %}" style="width:30px;height:30px;">
+                    <img src="{% static 'img/CGLogo.png' %}" style="width:300px;height:75px;">
                 </a>
             </div>
 
             <div class="header-right">
+
                 <a href="{% url 'leaderboards' %}">
-                    <button>Leaderboards</button>
+                    <button class="leader">Leaderboards</button>
                 </a>
+
+
                 <a href="{% url 'becomepremium' %}">
-                    <button>Become Premium</button>
+                    <button id="becomeP">Become Premium</button>
                 </a>
+
                 {% if request.session.username %}
 
-                    <a href="{% url 'profile' %}">
+                    <a href="{% url 'profile' pk=request.session.username %}">
                         <button>{{ request.session.username }}</button>
                     </a>
                     <a href="{% url 'logoutpage' %}">
                         <button>Sign Out</button>
                     </a>
                     <input type="text" placeholder="Search..">
-                    <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;">
+                    <button type="button"><img src="{% static 'img/searchicon.png' %}" style="width:20px;height:20px;">
                     </button>
 
                 {% else %}
@@ -51,7 +56,7 @@
                         <button>Register</button>
                     </a>
                     <input type="text" placeholder="Search..">
-                    <button type="button"><img src="{% static 'img/CGLogo.png' %}" style="width:15px;height:15px;">
+                    <button id="searchiconbutton" type="button"><img src="{% static 'img/searchicon.png' %}" style="width:20px;height:20px;">
                     </button>
 
                 {% endif %}

@@ -7,7 +7,7 @@ class Account(models.Model):
     username = models.CharField(max_length=20, primary_key=True)
     password = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
-    date_of_birth = models.DateTimeField(blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
     gender = models.CharField(max_length=1)
     coins = models.IntegerField(default=500)
     level = models.IntegerField(default=1)
