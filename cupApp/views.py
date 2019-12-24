@@ -25,14 +25,14 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         accounts = Account.objects.filter(username=username, password=password)
-
+        
         if accounts:
             username = request.POST['username']
             request.session['username'] = username
             request.session['success'] = True
             return redirect("index")
         else:
-            return render(request, 'cupApp/index.html', {})
+            return redirect("login")
     return render(request, 'cupApp/login.html', {})
 
 
