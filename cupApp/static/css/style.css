@@ -326,9 +326,9 @@ body::-webkit-scrollbar-thumb {
 
 .tab button {
     font-weight: bold;
-    background: #E0AE43;
+    background: #2B2B2B;
     cursor: pointer;
-    color: #2B2B2B;
+    color: #E0AE43;
     font-size: 15px;
     padding: 6px 24px;
     text-decoration: none;
@@ -351,13 +351,13 @@ body::-webkit-scrollbar-thumb {
 }
 
 .tab button:hover {
-    color: white;
-    background-color: #2B2B2B;
+    color: #2B2B2B;
+    background-color: #E0AE43;
 }
 
 .tab button.active {
-    color: white;
-    background-color: #2B2B2B;
+    color: #2B2B2B;
+    background-color: #E0AE43;
 }
 
 .login {
@@ -393,6 +393,7 @@ body::-webkit-scrollbar-thumb {
     width:50%;
     float:left;
 }
+
 .login input:focus {
     outline: none;
 }

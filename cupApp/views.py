@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge
 from django.utils import timezone
 from .forms import RegisterForm
+from datetime import date
 
 
 # Create your views here.
@@ -56,7 +57,6 @@ def register(request):
 def logoutpage(request):
     del request.session['username']
     request.session['success'] = False
-    logout(request)
     return HttpResponseRedirect(reverse('index'))
 
 
@@ -65,8 +65,11 @@ def profile(request, pk):
 
 
 def leaderboards(request):
+    week = date.today().isocalendar()[1]
     scores = Score.objects.filter(score__gte=0).order_by('-score')
-    return render(request, 'cupApp/leaderboards.html', {'scores': scores})
+    scores1 = Score.objects.filter(score__gte=0, score_date__month=timezone.now().month).order_by('-score')
+    scores2 = Score.objects.filter(score__gte=0, score_date__week=week).order_by('-score')
+    return render(request, 'cupApp/leaderboards.html', {'scores': scores, 'scores2': scores2, 'scores1': scores1})
 
 
 def becomepremium(request):

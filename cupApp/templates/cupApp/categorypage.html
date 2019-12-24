@@ -14,7 +14,7 @@
                         {% if forloop.counter <= 10 %}
                             {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
                                 <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img src="{{ game.thumbnail }}">
+                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img style="width:100px;height:100px;" src="{{ game.thumbnail }}">
                                         <p>{{ game.game_name }}</p></a>
                                 </div>
                             {% endif %}
@@ -29,7 +29,7 @@
                         {% if forloop.counter <= 10 %}
                             {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
                                 <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img src="{{ game.thumbnail }}">
+                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img style="width:100px;height:100px;" src="{{ game.thumbnail }}">
                                         <p>{{ game.game_name }}</p></a>
                                 </div>
                             {% endif %}
@@ -55,7 +55,7 @@
                         {% if forloop.counter <= 10 %}
                             {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
                                 <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img src="{{ game.thumbnail }}">
+                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img style="width:100px;height:100px;" src="{{ game.thumbnail }}">
                                         <p>{{ game.game_name }}</p></a>
                                 </div>
                             {% endif %}

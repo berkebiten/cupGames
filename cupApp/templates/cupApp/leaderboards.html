@@ -19,7 +19,7 @@
                         <th>username</th>
                         <th>score</th>
                     </tr>
-                    {% for score in scores %}
+                    {% for score in scores2 %}
                         {% if forloop.counter <= 10 %}
                             <tr>
                                 <td>{{ score.username }}</td>
@@ -39,7 +39,7 @@
                         <th>username</th>
                         <th>score</th>
                     </tr>
-                    {% for score in scores %}
+                    {% for score in scores1 %}
                         {% if forloop.counter <= 10 %}
                             <tr>
                                 <td>{{ score.username }}</td>

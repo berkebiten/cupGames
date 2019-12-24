@@ -1,7 +1,5 @@
 from django.db import models
-from django.conf import settings
 from django.utils import timezone
-
 
 class Account(models.Model):
     username = models.CharField(max_length=20, primary_key=True)
@@ -13,14 +11,13 @@ class Account(models.Model):
     level = models.IntegerField(default=1)
     type = models.CharField(max_length=2, default="FU")
     about_text = models.TextField(blank=True, null=True)
-    registration_date = models.DateTimeField(default=timezone.now)
+    registration_date = models.DateTimeField(default=timezone.now())
     isPremium = models.BooleanField(default=False)
     playLimit = models.IntegerField(default=15)
-    last_visit_date = models.DateTimeField(default=timezone.now)
+    last_visit_date = models.DateTimeField(default=timezone.now())
     warn_value = models.IntegerField(default=0)
     is_banned = models.BooleanField(default=False)
     profile_pic = models.CharField(max_length=1500, null=True, blank=True)
-    account_id = models.BigIntegerField
 
     def __str__(self):
         return self.username
@@ -41,7 +38,7 @@ class Game(models.Model):
     about_text = models.TextField()
     how_to_play_text = models.TextField()
     link = models.CharField(max_length=1500, blank=True, null=True)
-    added_date = models.DateTimeField(default=timezone.now)
+    added_date = models.DateTimeField(default=timezone.now())
     play_count = models.BigIntegerField()
     category1 = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name='cat_1', blank=True, null=True)
     category2 = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name='cat_2', blank=True, null=True)
@@ -55,6 +52,7 @@ class Score(models.Model):
     username = models.ForeignKey(Account, related_name='score_owner', on_delete=models.CASCADE)
     game_name = models.ForeignKey(Game, related_name='score_game', on_delete=models.CASCADE)
     score = models.BigIntegerField()
+    score_date = models.DateTimeField(default=timezone.now())
 
     def __int__(self):
         return self.score
