@@ -1,0 +1,75 @@
+{% extends 'cupApp/base.html' %}
+
+{% block content %}
+    <style>
+        .ingredients {
+            height: 90vh;
+        }
+    </style>
+    <div class="tab">
+        <button class="tablinks" onclick="tab(event, 'General')" id="defaultOpen">General</button>
+        <button class="tablinks" onclick="tab(event, 'Weekly')">Weekly</button>
+        <button class="tablinks" onclick="tab(event, 'Monthly')">Monthly</button>
+    </div>
+    <div class="leaderboardtables">
+        <div id="Weekly" class="tabcontent">
+            <div class="leaderboard">
+                <table align="center">
+                    <tr>
+                        <th>username</th>
+                        <th>score</th>
+                    </tr>
+                    {% for score in scores2 %}
+                        {% if forloop.counter <= 10 %}
+                            <tr>
+                                <td>{{ score.username }}</td>
+                                <td>{{ score.score }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+
+        <div id="Monthly" class="tabcontent">
+            <div class="leaderboard">
+                <table align="center">
+                    <tr>
+                        <th>username</th>
+                        <th>score</th>
+                    </tr>
+                    {% for score in scores1 %}
+                        {% if forloop.counter <= 10 %}
+                            <tr>
+                                <td>{{ score.username }}</td>
+                                <td>{{ score.score }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+
+        <div id="General" class="tabcontent">
+            <div class="leaderboard">
+                <table align="center">
+                    <tr>
+                        <th>username</th>
+                        <th>score</th>
+                    </tr>
+                    {% for score in scores %}
+                        {% if forloop.counter <= 10 %}
+                            <tr>
+                                <td>{{ score.username }}</td>
+                                <td>{{ score.score }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
