@@ -11,6 +11,8 @@ urlpatterns = [
     path('profile/<str:pk>', views.profile, name='profile'),
     path('becomepremium', views.becomepremium, name='becomepremium'),
     path('leaderboards', views.leaderboards, name='leaderboards'),
-    path('premiumprocess', views.premiumprocess, name="premiumprocess")
+    path('premiumprocess', views.premiumprocess, name="premiumprocess"),
+    path('forgotPassword', views.forgotPassword, name='forgotPassword'),
+    path('forgotPassword2/<str:pk>/', views.forgotPassword2, name='forgotPassword2')
 
 ]

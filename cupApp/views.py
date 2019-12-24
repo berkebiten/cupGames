@@ -17,7 +17,7 @@ def index(request):
     games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
     return render(request, 'cupApp/index.html',
-              {'games': games, 'scores': scores, 'games2': games2, 'games3': games3, 'categorys': categorys})
+                  {'games': games, 'scores': scores, 'games2': games2, 'games3': games3, 'categorys': categorys})
 
 
 def login(request):
@@ -25,7 +25,7 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         accounts = Account.objects.filter(username=username, password=password)
-        
+
         if accounts:
             username = request.POST['username']
             request.session['username'] = username
@@ -34,6 +34,36 @@ def login(request):
         else:
             return redirect("login")
     return render(request, 'cupApp/login.html', {})
+
+
+def forgotPassword(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        error = ""
+        account = Account.objects.filter(username=username, email=email)
+
+        if account:
+            return redirect('forgotPassword2', pk=username)
+        else:
+            error = "wrong"
+            return render(request, 'cupApp/forgotPassword.html', {'error': error})
+    return render(request, 'cupApp/forgotPassword.html', {})
+
+
+def forgotPassword2(request, pk):
+    if request.method == 'POST':
+        password_1 = request.POST['password_1']
+        password_2 = request.POST['password_2']
+        username = pk
+
+        if password_1 == password_2:
+            Account.objects.filter(username=username).update(password=password_1)
+            return redirect('login')
+        else:
+            error = "wrong"
+            return render(request, 'cupApp/forgotPassword2.html', {'error': error})
+    return render(request, 'cupApp/forgotPassword2.html', {})
 
 
 def register(request):
@@ -105,5 +135,5 @@ def account_new(request):
 
 
 def premiumprocess(request, pk):
-    accounts = get_object_or_404(Account, pk = pk)
+    accounts = get_object_or_404(Account, pk=pk)
     accounts
