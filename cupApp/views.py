@@ -46,7 +46,8 @@ def register(request):
             account.password = form.cleaned_data.get('password')
             account.email = form.cleaned_data.get('email')
             account.gender = form.cleaned_data.get('gender')
-            account.date_of_birth = form.cleaned_data.get('date_of_birth')
+            account.date_of_birth = request.POST['date_of_birth']
+
             account.save()
             return redirect('login')
     else:

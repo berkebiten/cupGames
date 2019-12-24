@@ -7,18 +7,17 @@ GENDER_CHOICES = [
     ("O", "Other")
 ]
 
-
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput, label='Username', required=True)
     email = forms.CharField(widget=forms.EmailInput, label='Email', required=True)
     password = forms.CharField(widget=forms.PasswordInput(), label='Password', required=True)
     gender = forms.ChoiceField(choices=GENDER_CHOICES, label='Gender', required=True)
-    date_of_birth = forms.DateField(input_formats=['%d/%m/%Y'], widget=forms.DateInput, label='Date of Birth',
-                                    required=True)
+    gender.widget.attrs.update({'class':'genderChoice'})
+
 
     class Meta:
         model = Account
-        fields = ('username', 'password', 'email', 'gender', 'date_of_birth',)
+        fields = ('username', 'password', 'email', 'gender',)
 
 
 class LoginForm(forms.ModelForm):
