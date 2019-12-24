@@ -30,62 +30,47 @@
     <div id="Weekly" class="tabcontent">
         <div class="about">
             <div class="detailsAbout">
-                <p>.</p>
-                <p>.</p>
-                <p>.</p>
-                <p>About the game.</p>
-                <p>.</p>
-                <p>.</p>
-                <p>.</p>
+                <p>{{ game.about_text }}</p>
             </div>
         </div>
         <div class="howToPlay">
             <div class="detailsHtp">
-                <p>.</p>
-                <p>.</p>
-                <p>.</p>
-                <p>How to play the game.</p>
-                <p>.</p>
-                <p>.</p>
-                <p>.</p>
+                <p>{{ game.how_to_play_text }}</p>
             </div>
         </div>
     </div>
     <div id="Monthly" class="tabcontent">
         <div class="commentSection">
-            <div class="card">
-                <div class="photo">
-                    <a href="ProfileUser.html"><img src="img/thumbnailuser.png"></a>
-                </div>
-                <div class="comment">
-                    <p>Comment...</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="photo">
-                    <a href="ProfileAdmin.html"><img src="img/thumbnailadmin.png"></a>
-                </div>
-                <div class="comment">
-                    <p>Comment...</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="photo">
-                    <a href="ProfilePremium.html"><img src="img/thumbnailpremium.png"></a>
-                </div>
-                <div class="comment">
-                    <p>Comment...</p>
-                </div>
-            </div>
-            <div class="commentArea">
-                    <textarea id="txtarea" placeholder="Write your comment here." name="textarea" rows="6"
-                              cols="173"></textarea>
-                <button>Save</button>
-            </div>
+            {% for comment in comments %}
+                {% if comment.game_name.game_name == game.game_name %}
+                    <div class="comment-card">
+                        <div class="photo">
+                            <a href="{% url 'profile' pk=comment.username.username %}"><img
+                                    style="width: 100px; height: 100px;" src="{{ comment.username.profile_pic }}"></a>
+                            <p>{{ comment.username.username }}</p>
+                        </div>
+                        <div class="comment">
+                            <p>{{ comment.text }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
-        <div class="General class=tabcontent">
+        {% if request.session.username %}
+            <div class="commentArea">
+            <form method="post" action="{% url 'gamepage' pk=game.game_name %}">
+                {% csrf_token %}
+                <textarea name="comment_box" placeholder="Write your comment here."></textarea>
+                <button type="submit">Comment</button>
+            </form>
+        {% else %}
+        {% endif %}
+        </div>
+    </div>
+    <div id="General" class="tabcontent">
+        <div class="leaderboard">
             <p>LEADERBOARD</p>
-            <table>
+            <table align="center">
                 <tr>
                     <th>username</th>
                     <th>score</th>
@@ -93,14 +78,16 @@
                 {% for score in scores %}
                     {% if forloop.counter <= 10 %}
                         <tr>
-                            <td>{{ score.username }}</td>
-                            <td>{{ score.score }}</td>
+                            {% if score.game_name.game_name == game.game_name %}
+                                <td>{{ score.username }}</td>
+                                <td>{{ score.score }}</td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% endfor %}
-
             </table>
         </div>
+    </div>
 
     </div>
 

@@ -109,7 +109,20 @@ def becomepremium(request):
 
 def gamepage(request, pk):
     game = get_object_or_404(Game, pk=pk)
-    return render(request, 'cupApp/gamepage.html', {'game': game})
+    categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
+    account = Account.objects.get(username=request.session['username'])
+    scores = Score.objects.filter(score__gte=0).order_by('-score')
+    comments = Comment.objects.all()
+    if request.method == 'POST':
+        print(request.POST)
+        comment_box = request.POST.get('comment_box')
+        if comment_box:
+            comment = Comment.objects.create(text=comment_box, game_name=game,
+                                             username=account)
+            return redirect('gamepage', pk=game.game_name)
+
+    return render(request, 'cupApp/gamepage.html', {'game': game, 'categorys': categorys, 'comments': comments,
+                                                    'scores': scores})
 
 
 def categorypage(request, pk):
