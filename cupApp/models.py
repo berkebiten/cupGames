@@ -62,7 +62,7 @@ class Comment(models.Model):
     username = models.ForeignKey(Account, related_name='comment_owner', on_delete=models.CASCADE)
     game_name = models.ForeignKey(Game, related_name='comment_game', on_delete=models.CASCADE)
     text = models.TextField()
-    comment_id = models.IntegerField(primary_key=True)
+    comment_id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.comment_id
