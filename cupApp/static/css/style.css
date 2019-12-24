@@ -472,6 +472,10 @@ body::-webkit-scrollbar-thumb {
     align-content: center;
 }
 
+.genderChoice{
+    background-color:#575454;
+}
+
 .register input:focus {
     outline: none;
 }
