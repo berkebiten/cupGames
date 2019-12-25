@@ -237,6 +237,18 @@ body::-webkit-scrollbar-thumb {
     padding: 6px 12px;
     border-top: none;
 }
+.about{
+    float:left;
+    border: 2px solid black;
+    width: 49.5%;
+    height: 50%;
+}
+ .howToPlay {
+    float:right;
+    border: 2px solid black;
+    width: 49.5%;
+    height: 50%;
+}
 
 .gamepart {
     float: right;
