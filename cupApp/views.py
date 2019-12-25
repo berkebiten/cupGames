@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge
+from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge, Favorite
 from django.utils import timezone
 from .forms import RegisterForm
 from datetime import date
@@ -25,14 +25,22 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         accounts = Account.objects.filter(username=username, password=password)
-
+        error = ""
         if accounts:
-            username = request.POST['username']
-            request.session['username'] = username
-            request.session['success'] = True
-            return redirect("index")
+            account = accounts.get(username=username, password=password)
+            if account.type == "AD":
+                username = request.POST['username']
+                request.session['username'] = username
+                request.session['success'] = True
+                return redirect("adminpanel")
+            else:
+                username = request.POST['username']
+                request.session['username'] = username
+                request.session['success'] = True
+                return redirect("index")
         else:
-            return redirect("login")
+            error = "wrong"
+            return render(request, 'cupApp/login.html', {'error': error})
     return render(request, 'cupApp/login.html', {})
 
 
@@ -103,26 +111,45 @@ def leaderboards(request):
     return render(request, 'cupApp/leaderboards.html', {'scores': scores, 'scores2': scores2, 'scores1': scores1})
 
 
-def becomepremium(request):
-    return render(request, 'cupApp/becomepremium.html')
+def becomepremium(request, pk):
+    account = get_object_or_404(Account, pk=pk)
+    error = ""
+    if request.method == "POST":
+        if account.coins >= 20000:
+            Account.objects.filter(username=pk).update(type="PU")
+            Account.objects.filter(username=pk).update(coins=account.coins - 20000)
+            return redirect('index')
+        else:
+            error = "You don't have enough coins"
+    return render(request, 'cupApp/becomepremium.html', {'account': account, 'error':error})
 
 
 def gamepage(request, pk):
     game = get_object_or_404(Game, pk=pk)
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
-    account = Account.objects.get(username=request.session['username'])
     scores = Score.objects.filter(score__gte=0).order_by('-score')
+    favorites =Favorite.objects.all()
     comments = Comment.objects.all()
     if request.method == 'POST':
-        print(request.POST)
+        account = Account.objects.get(username=request.session['username'])
         comment_box = request.POST.get('comment_box')
         if comment_box:
             comment = Comment.objects.create(text=comment_box, game_name=game,
                                              username=account)
             return redirect('gamepage', pk=game.game_name)
+    else:
+        return render(request, 'cupApp/gamepage.html', {'game': game, 'categorys': categorys, 'comments': comments,
+                                                    'scores': scores, 'favorites':favorites})
 
-    return render(request, 'cupApp/gamepage.html', {'game': game, 'categorys': categorys, 'comments': comments,
-                                                    'scores': scores})
+
+def addfavorite(request, pk):
+    game = Game.objects.get(game_name=pk)
+    if request.method == 'POST':
+        account = Account.objects.get(username=request.session['username'])
+        favourite = Favorite.objects.create(username=account, game_name=game)
+        return redirect('gamepage', pk=game.game_name)
+    return redirect('gamepage', pk=game.game_name)
+
 
 
 def categorypage(request, pk):
@@ -135,18 +162,7 @@ def categorypage(request, pk):
                   {'category': category, 'games': games, 'games2': games2, 'games3': games3, 'categorys': categorys})
 
 
-def account_new(request):
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            account = form.save(commit=False)
-            account.save()
-            return redirect('account_detail', pk=account.pk)
-    else:
-        form = RegisterForm()
-    return render(request, 'cupApp/account_edit.html', {'form': form})
+def adminpanel(request):
+    return render(request, 'cupApp/adminpanel.html')
 
 
-def premiumprocess(request, pk):
-    accounts = get_object_or_404(Account, pk=pk)
-    accounts

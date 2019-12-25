@@ -414,8 +414,11 @@ body::-webkit-scrollbar-thumb {
 }
 
 .tab {
+    margin-top:3%;
+    width:100%;
     overflow: hidden;
     background-color: #2B2B2B;
+    float:left;
 }
 
 .tab button:hover {

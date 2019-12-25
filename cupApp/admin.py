@@ -7,6 +7,7 @@ from .models import Comment
 from .models import Statistic
 from .models import Badge
 from .models import Suggestion
+from .models import Favorite
 
 
 # Register your models here.
@@ -18,3 +19,4 @@ admin.site.register(Comment)
 admin.site.register(Statistic)
 admin.site.register(Badge)
 admin.site.register(Suggestion)
+admin.site.register(Favorite)

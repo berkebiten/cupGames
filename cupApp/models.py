@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 class Account(models.Model):
     username = models.CharField(max_length=20, primary_key=True)
     password = models.CharField(max_length=50)
@@ -59,12 +60,12 @@ class Score(models.Model):
 
 
 class Comment(models.Model):
+    comment_id = models.IntegerField(primary_key=True)
     username = models.ForeignKey(Account, related_name='comment_owner', on_delete=models.CASCADE)
     game_name = models.ForeignKey(Game, related_name='comment_game', on_delete=models.CASCADE)
     text = models.TextField()
-    comment_id = models.IntegerField(primary_key=True)
 
-    def __str__(self):
+    def __int__(self):
         return self.comment_id
 
 
@@ -99,3 +100,12 @@ class Suggestion(models.Model):
 
     def __str__(self):
         return self.suggestion_id
+
+
+class Favorite(models.Model):
+    username = models.ForeignKey(Account, related_name='favourite_owner', on_delete=models.CASCADE)
+    game_name = models.ForeignKey(Game, related_name='favourite_game', on_delete=models.CASCADE)
+    favoriteId = models.AutoField(primary_key=True)
+
+    def __int__(self):
+        return self.favoriteId

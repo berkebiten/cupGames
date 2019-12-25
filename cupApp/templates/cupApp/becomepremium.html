@@ -4,30 +4,25 @@
 
 
 
-    {% if request.session.username %}
+    {% if account.type == "FU" %}
         <div class="login">
-            <h2>Your coin balance: "coin"</h2>
-            <h2>Premium cost: "premiumcost"</h2>
-            <h2>Do you want to spend your coins and become a premium?</h2>
+            <p> {{ error }}</p>
+            <h2>Your coin balance: {{ account.coins }}</h2>
+            <h2>Premium cost: 20000</h2>
+            <h2>Do you want to spend your coins and become a premium member?</h2>
             <div class="buttons">
-                <a href="{% url 'premiumprocess' pk=request.session.username %}">
-                    <button>Yes</button>
-                </a>
-                <a href="{% url '' %}">
-                    <button>No</button>
-                </a>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="yes">Yes</button>
+                </form>
+                <a href={% url 'index' %}><button name="no">No</button></a>
             </div>
         </div>
     {% else %}
         <div class="login">
-            <p>You have to be logged in to become a premium user.</p>
+            <p>You already have premium.</p>
             <div class="buttons">
-                <a href="{% url 'login' %}">
-                    <button>Log In</button>
-                </a>
-                <a href="{% url 'register' %}">
-                    <button>Register</button>
-                </a>
+
             </div>
         </div>
     {% endif %}

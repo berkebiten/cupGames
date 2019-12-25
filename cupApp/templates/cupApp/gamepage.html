@@ -1,21 +1,40 @@
 {% extends 'cupApp/base.html' %}
 
 {% block content %}
+
     <style>
-    .ingredients{
-        height:110vh;
-    }
+        .ingredients {
+            height: 110vh;
+        }
     </style>
+
     <div class="upper">
+        {% with stop = "false" %}
+        {% endwith %}
+        {% for favorite in favorites %}
+            {% if favorite.game_name == pk and request.session.username == account.username %}
+                <a href="{% url 'removeFavorite' pk=game.game_name %}">
+                    <button name="removeFavorite">Remove Favourite</button>
+                </a>
+                {% with stop="true" %}
+                {% endwith %}
+            {% endif %}
+        {% endfor %}
+        {% if stop == "false" %}
+            <a href="{% url 'addFavorite' pk=game.game_name %}">
+                <button name="addFavorite">Add Favourite</button>
+            </a>
+        {% endif %}
         <div class="suggestionView">
-                <div class="details">
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>Game will be displayed in here.</p>
-                    <p>.</p>
-                    <p>.</p>
-                </div>
+            <div class="details">
+                <p>.</p>
+                <p>.</p>
+                <p>.</p>
+                <p>Game will be displayed in here.</p>
+                <p>.</p>
+                <p>.</p>
+                <p>.</p>
+            </div>
         </div>
         <div class="categoryBar">
             <p><b>CATEGORIES</b></p>
@@ -32,11 +51,13 @@
     <div id="Weekly" class="tabcontent">
         <div class="about">
             <div class="detailsAbout">
+                <h4>About the game</h4>
                 <p>{{ game.about_text }}</p>
             </div>
         </div>
         <div class="howToPlay">
             <div class="detailsHtp">
+                <h4>How to play the game</h4>
                 <p>{{ game.how_to_play_text }}</p>
             </div>
         </div>
@@ -49,25 +70,25 @@
                         <div class="photo">
                             <a href="{% url 'profile' pk=comment.username.username %}"><img
                                     style="width: 100px; height: 100px;" src="{{ comment.username.profile_pic }}"></a>
-                            <p>{{ comment.username.username }}</p>
                         </div>
                         <div class="comment">
+                            <p>{{ comment.username.username }}</p>
                             <p>{{ comment.text }}</p>
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
         </div>
+        <br>
         {% if request.session.username %}
             <div class="commentArea">
-            <form method="post" action="{% url 'gamepage' pk=game.game_name %}">
-                {% csrf_token %}
-                <textarea name="comment_box" placeholder="Write your comment here."></textarea>
-                <button type="submit">Comment</button>
-            </form>
-        {% else %}
+                <form method="post" action="{% url 'gamepage' pk=game.game_name %}">
+                    {% csrf_token %}
+                    <textarea name="comment_box" placeholder="Write your comment here."></textarea>
+                    <button type="submit">Comment</button>
+                </form>
+            </div>
         {% endif %}
-        </div>
     </div>
     <div id="General" class="tabcontent">
         <div class="leaderboard">

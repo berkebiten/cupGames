@@ -9,10 +9,11 @@ urlpatterns = [
     path('register', views.register, name='register'),
     path('logoutpage', views.logoutpage, name='logoutpage'),
     path('profile/<str:pk>', views.profile, name='profile'),
-    path('becomepremium', views.becomepremium, name='becomepremium'),
+    path('becomepremium/<str:pk>', views.becomepremium, name='becomepremium'),
     path('leaderboards', views.leaderboards, name='leaderboards'),
-    path('premiumprocess', views.premiumprocess, name="premiumprocess"),
     path('forgotPassword', views.forgotPassword, name='forgotPassword'),
-    path('forgotPassword2/<str:pk>/', views.forgotPassword2, name='forgotPassword2')
+    path('forgotPassword2/<str:pk>/', views.forgotPassword2, name='forgotPassword2'),
+    path('adminpanel', views.adminpanel, name='adminpanel'),
+    path('addFavorite/<str:pk>/', views.addfavorite, name="addFavorite")
 
 ]

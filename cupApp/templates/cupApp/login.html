@@ -10,6 +10,7 @@
         <h1>LOGIN</h1>
         <img  src={% static 'img/CGLogoIcon.png' %}>
         <form method="post" action="{% url 'login' %}">
+            <p>{{ error }}</p>
             {% csrf_token %}
             <div class="inputField">
 
@@ -32,4 +33,3 @@
         </form>
     </div>
 {% endblock %}
-
