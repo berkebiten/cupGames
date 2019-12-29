@@ -9,22 +9,7 @@
     </style>
 
     <div class="upper">
-        {% with stop = "false" %}
-        {% endwith %}
-        {% for favorite in favorites %}
-            {% if favorite.game_name == pk and request.session.username == account.username %}
-                <a href="{% url 'removeFavorite' pk=game.game_name %}">
-                    <button name="removeFavorite">Remove Favourite</button>
-                </a>
-                {% with stop="true" %}
-                {% endwith %}
-            {% endif %}
-        {% endfor %}
-        {% if stop == "false" %}
-            <a href="{% url 'addFavorite' pk=game.game_name %}">
-                <button name="addFavorite">Add Favourite</button>
-            </a>
-        {% endif %}
+
         <div class="suggestionView">
             <div class="details">
                 <p>.</p>
@@ -47,6 +32,20 @@
         <button class="tablinks" onclick="tab(event, 'Weekly')" id="defaultOpen">Description</button>
         <button class="tablinks" onclick="tab(event, 'Monthly')">Comments</button>
         <button class="tablinks" onclick="tab(event, 'General')">Leaderboard</button>
+        {% if request.session.username %}
+            {% for favorite in favorites %}
+                {% if favorite.username.username == request.session.username %}
+                    <a href="{% url 'removeFavorite' pk=game.game_name %}">
+                        <button>Remove Favorite</button>
+                    </a>
+                {% endif %}
+            {% endfor %}
+            {% if favorites == "no" %}
+                <a href="{% url 'addFavorite' pk=game.game_name %}">
+                    <button>Add Favorite</button>
+                </a>
+            {% endif %}
+        {% endif %}
     </div>
     <div id="Weekly" class="tabcontent">
         <div class="about">

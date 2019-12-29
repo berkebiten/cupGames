@@ -18,12 +18,13 @@
                 <a href={% url 'index' %}><button name="no">No</button></a>
             </div>
         </div>
+    {% elif account.type == "AD" %}
+        <div class="login">
+            <p>Admins already have rights of Premiums so u can't buy a premium membership.</p>
+        </div>
     {% else %}
         <div class="login">
             <p>You already have premium.</p>
-            <div class="buttons">
-
-            </div>
         </div>
     {% endif %}
 

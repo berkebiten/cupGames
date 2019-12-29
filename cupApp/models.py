@@ -90,15 +90,17 @@ class Badge(models.Model):
 
 
 class Suggestion(models.Model):
-    username = models.ForeignKey(Account, related_name='suggestion_owner', on_delete=models.DO_NOTHING, null=True, blank=True)
+    username = models.ForeignKey(Account, related_name='suggestion_owner', on_delete=models.DO_NOTHING, null=True,
+                                 blank=True)
     detail = models.TextField()
     submit_time = models.DateTimeField(default=timezone.now())
     last_modified = models.DateTimeField(default=timezone.now())
-    is_checked = models.BooleanField()
-    is_starred = models.BooleanField()
-    suggestion_id = models.IntegerField(primary_key=True)
+    game_link = models.CharField(null=True, blank=True, max_length=1500)
+    is_checked = models.BooleanField(default=False)
+    is_starred = models.BooleanField(default=False)
+    suggestion_id = models.AutoField(primary_key=True)
 
-    def __str__(self):
+    def __int__(self):
         return self.suggestion_id
 
 
@@ -109,3 +111,12 @@ class Favorite(models.Model):
 
     def __int__(self):
         return self.favoriteId
+
+
+class FavCategory(models.Model):
+    username = models.ForeignKey(Account, related_name='favcategory_owner', on_delete=models.CASCADE)
+    category_name = models.ForeignKey(Category, related_name='favourite_category', on_delete=models.CASCADE)
+    favcategoryId = models.AutoField(primary_key=True)
+
+    def __int__(self):
+        return self.favcategoryId

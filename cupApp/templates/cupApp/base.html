@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     {% block content1 %}
     {% endblock %}
@@ -19,7 +20,7 @@
         <div class="header" id="myHeader">
             <div class="logo">
                 <a href="{% url 'index' %}">
-                    <img src="{% static 'img/CGLogo.png' %}" style="width:300px;height:75px;">
+                    <img src="{% static 'img/CGLogo.png' %}" style="width:250px;height:75px;">
                 </a>
             </div>
 
@@ -72,7 +73,7 @@
         {% if request.session.username %}
             <div class="header2">
                 <p1>Welcome, {{ request.session.username }}</p1>
-                <p2>You can play "{{ account }}" more games in "number" hours.</p2>
+                <p2>You can play {{ request.session.playLimit }} more games till next day</p2>
             </div>
         {% else %}
             <div class="header2">
@@ -87,7 +88,9 @@
             <p>CUPGAMES IS A WEBSITE WITH SMALL GAMES. CREATED BY BERKE BITEN & ALI ATAHAN TOPAL</p>
         </div>
         <div class="suggest">
-            <button onclick="window.location.href = 'SuggestGameGuest.html';"> Suggest a Game</button>
+            <a href="{% url 'suggestGame' %}">
+                <button>Suggest a Game</button>
+            </a>
         </div>
     </div>
 </div>

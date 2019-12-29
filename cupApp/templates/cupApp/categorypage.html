@@ -1,9 +1,25 @@
 {% extends 'cupApp/base.html' %}
 
+
 {% block content1 %}
 {% endblock %}
 
 {% block content %}
+
+    {% if request.session.username %}
+        {% for favorite in favorites %}
+            {% if favorite.username.username == request.session.username %}
+                <a href="{% url 'removefavoritecategory' pk=category.category_name %}">
+                    <button>Remove Favorite</button>
+                </a>
+            {% endif %}
+        {% endfor %}
+        {% if favorites == "no" %}
+            <a href="{% url 'addfavoritecategory' pk=category.category_name %}">
+                <button>Add Favorite</button>
+            </a>
+        {% endif %}
+    {% endif %}
 
     <div class="tab1">
         <div class="gamepart">
@@ -14,7 +30,8 @@
                         {% if forloop.counter <= 10 %}
                             {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
                                 <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img style="width:100px;height:100px;" src="{{ game.thumbnail }}">
+                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img
+                                            style="width:100px;height:100px;" src="{{ game.thumbnail }}">
                                         <p>{{ game.game_name }}</p></a>
                                 </div>
                             {% endif %}
@@ -29,7 +46,8 @@
                         {% if forloop.counter <= 10 %}
                             {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
                                 <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img style="width:100px;height:100px;" src="{{ game.thumbnail }}">
+                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img
+                                            style="width:100px;height:100px;" src="{{ game.thumbnail }}">
                                         <p>{{ game.game_name }}</p></a>
                                 </div>
                             {% endif %}
@@ -55,7 +73,8 @@
                         {% if forloop.counter <= 10 %}
                             {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
                                 <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img style="width:100px;height:100px;" src="{{ game.thumbnail }}">
+                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img
+                                            style="width:100px;height:100px;" src="{{ game.thumbnail }}">
                                         <p>{{ game.game_name }}</p></a>
                                 </div>
                             {% endif %}

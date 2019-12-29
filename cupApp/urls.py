@@ -14,6 +14,12 @@ urlpatterns = [
     path('forgotPassword', views.forgotPassword, name='forgotPassword'),
     path('forgotPassword2/<str:pk>/', views.forgotPassword2, name='forgotPassword2'),
     path('adminpanel', views.adminpanel, name='adminpanel'),
-    path('addFavorite/<str:pk>/', views.addfavorite, name="addFavorite")
+    path('addFavorite/<str:pk>/', views.addfavorite, name="addFavorite"),
+    path('removeFavorite/<str:pk>/', views.removefavorite, name="removeFavorite"),
+    path('suggestGame', views.suggestGame, name="suggestGame"),
+    path('viewSuggestions', views.viewSuggestions, name="viewSuggestions"),
+    path('suggestion/<int:pk>', views.suggestion, name="suggestion"),
+    path('addFavoriteCategory/<str:pk>/', views.addfavoritecategory, name="addfavoritecategory"),
+    path('removeFavoriteCategory/<str:pk>/', views.removefavoritecategory, name="removefavoritecategory")
 
 ]

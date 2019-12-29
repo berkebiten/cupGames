@@ -1,59 +1,22 @@
-<!doctype html>
-<html class="no-js" lang="">
+{% extends 'cupApp/base.html' %}
+{% load static %}
 
-<head>
-    <link href="css/AdminPanel.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style></style>
-</head>
+{% block content %}
+    <style>
+    .ingredients {
+        height: 60vh;
+    }
+</style>
 
-<body>
+    <div class="adminFunctions">
 
-<div class="container">
-    <div class="ingredients">
-        <div class="header" id="myHeader">
-            <div class="logo">
-                <a href="HomepageAdmin.html">
-                    <img src="img/CGLogo.png" style="width:30px;height:30px;">
-                </a>
-            </div>
-
-            <div class="header-right">
-                <button onclick="window.location.href = 'LeaderboardAdmin.html';">Leaderboards</button>
-                <button onclick="window.location.href = 'ProfileAdmin.html';">"Administrator"</button>
-                <button onclick="window.location.href = 'index.html';">Sign Out</button>
-                <input type="text" placeholder="Search..">
-                <button type="button"><img src="img/searchicon.png" style="width:15px;height:15px;"></button>
-            </div>
-
-
-        </div>
-        <div class="header2">
+        <div class="buttons">
             <p1>ADMIN PANEL</p1>
-
+            <button id="banButton" onclick="window.location.href = 'BanUser.html';">SEARCH (BAN&WARN) USER</button>
+            <a href="{% url 'viewSuggestions' %}"><button id="seeSuggestionsButton" onclick="window.location.href = 'GameSuggestions.html';">GAME SUGGESTIONS
+            </button></a>
+            <button id="addGameButton">ADD A GAME</button>
         </div>
-
-        <div class="adminFunctions">
-            <div class="buttons">
-            <button id="banButton" onclick="window.location.href = 'BanUser.html';">BAN A USER</button>
-            <button id="warnButton" onclick="window.location.href = 'WarnUser.html';">WARN A USER</button>
-            <button id="seeSuggestionsButton" onclick="window.location.href = 'GameSuggestions.html';">SEE GAME SUGGESTIONS</button>
-                </div>
-        </div>
-
-
-
-
     </div>
-    <div class="bottom">
-        <div class="paragraph">
-            <p>CUPGAMES IS A WEBSITE WITH SMALL GAMES. CREATED BY BERKE BITEN & ALI ATAHAN TOPAL</p>
-        </div>
+{% endblock %}
 
-    </div>
-</div>
-
-<script src="js/script1.js"></script>
-</body>
-
-</html>

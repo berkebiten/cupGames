@@ -1,0 +1,48 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 110vh;
+        }
+    </style>
+    <div class="suggestionX">
+        <a href="{% url 'viewSuggestions' %}"><button><</button></a>
+        <div class="details">
+            <p>SUGGESTION {{ suggestion.suggestion_id }}</p>
+        </div>
+
+        <textarea name="sugDetail" placeholder="{{ suggestion.detail }}" readonly></textarea>
+        <form method="post">
+            {% csrf_token %}
+            <div class="checks">
+                {% if suggestion.is_checked %}
+                    <input id="chk1" type="checkbox" name="uncheck" onclick="checkFunc('chk2')"/>Uncheck
+                {% else %}
+                    <input id="chk1" type="checkbox" name="uncheck" onclick="checkFunc('chk2')" checked/>Uncheck
+                {% endif %}
+
+                {% if suggestion.is_checked %}
+                    <input id="chk2" type="checkbox" name="check" onclick="checkFunc('chk1')" checked/>Check
+                {% else %}
+                    <input id="chk2" type="checkbox" name="check" onclick="checkFunc('chk1')"/>Check
+                {% endif %}
+            </div>
+            <div class="checks">
+                {% if suggestion.is_starred %}
+                    <input id="chk3" type="checkbox" name="unstar" onclick="checkFunc('chk4')"/>Unstar
+                {% else %}
+                    <input id="chk3" type="checkbox" name="unstar" onclick="checkFunc('chk4')" checked/>Unstar
+                {% endif %}
+
+                {% if suggestion.is_starred %}
+                    <input id="chk4" type="checkbox" name="star" onclick="checkFunc('chk3')" checked/>Star
+                {% else %}
+                    <input id="chk4" type="checkbox" name="star" onclick="checkFunc('chk3')"/>Star
+                {% endif %}
+            </div>
+            <br>
+            <button class="loginbutton" type="submit">SAVE</button>
+        </form>
+    </div>
+{% endblock %}

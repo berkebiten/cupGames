@@ -1,0 +1,21 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 110vh;
+        }
+    </style>
+    <div class='register'>
+        <h1>SUGGEST A GAME</h1>
+        <img src={% static 'img/CGLogoIcon.png' %}>
+        <form method="post" action="{% url 'suggestGame' %}">
+            {% csrf_token %}
+            <input type="text" name="game_name_input" placeholder="Name of the game"/>
+            <textarea name="description_box" placeholder="Tell us about the game..."></textarea>
+            <input type="text" name="game_link_input" placeholder="Link of the game (optional)"/>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+{% endblock %}

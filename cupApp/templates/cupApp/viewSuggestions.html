@@ -1,0 +1,65 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .ingredients {
+            height: 110vh;
+        }
+    </style>
+
+    <div class="suggestTables">
+    <a href="{% url 'adminpanel' %}"><button><</button></a>
+        <p1>SUGGESTIONS</p1>
+        <div class="suggestionTable">
+            <table>
+                <tr>
+                    <th>NEW</th>
+                </tr>
+                {% for suggestion in newSuggestions %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'suggestion' pk=suggestion.suggestion_id %}">Suggestion {{ suggestion.suggestion_id }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <div class="suggestionTable">
+            <table>
+                <tr>
+                    <th>CHECKED</th>
+                </tr>
+                {% for suggestion in checkedSuggestions %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'suggestion' pk=suggestion.suggestion_id %}">Suggestion {{ suggestion.suggestion_id }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <div class="suggestionTable">
+            <table>
+                <tr>
+                    <th>STARRED</th>
+                </tr>
+                {% for suggestion in starredSuggestions %}
+                    <tr>
+                        <td>
+
+                            <a href="{% url 'suggestion' pk=suggestion.suggestion_id %}">Suggestion {{ suggestion.suggestion_id }}</a>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
