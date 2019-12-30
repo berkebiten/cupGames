@@ -5,54 +5,102 @@
 {% endblock %}
 
 {% block content %}
-
-    {% if request.session.username %}
-        {% for favorite in favorites %}
-            {% if favorite.username.username == request.session.username %}
-                <a href="{% url 'removefavoritecategory' pk=category.category_name %}">
-                    <button>Remove Favorite</button>
+    <div class="categoryFavorite">
+        {% if request.session.username %}
+            {% for favorite in favorites %}
+                {% if favorite.username.username == request.session.username %}
+                    <a href="{% url 'removefavoritecategory' pk=category.category_name %}">
+                        <button>Remove Favorite</button>
+                    </a>
+                {% endif %}
+            {% endfor %}
+            {% if favorites == "no" %}
+                <a href="{% url 'addfavoritecategory' pk=category.category_name %}">
+                    <button>Add Favorite</button>
                 </a>
             {% endif %}
-        {% endfor %}
-        {% if favorites == "no" %}
-            <a href="{% url 'addfavoritecategory' pk=category.category_name %}">
-                <button>Add Favorite</button>
-            </a>
         {% endif %}
-    {% endif %}
-
-    <div class="tab1">
-        <div class="gamepart">
-            <div class="games">
-                <p><b>NEW {{ category.category_name }} GAMES</b></p>
-                <div class="scroll">
-                    {% for game in games %}
+    </div>
+    <div class="lefttab">
+        <div class="tab1">
+            <div class="leaderboard">
+                <p>{{ category.category_name.upper }} LEADERBOARD</p>
+                <table>
+                    <tr>
+                        <th>username</th>
+                        <th>score</th>
+                    </tr>
+                    {% for score in scores %}
                         {% if forloop.counter <= 10 %}
-                            {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
-                                <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img
-                                            style="width:100px;height:100px;" src="{{ game.thumbnail }}">
-                                        <p>{{ game.game_name }}</p></a>
-                                </div>
+                            {% if score.game_name.category1.category_name == category.category_name or score.game_name.category2.category_name == category.category_nam  or score.game_name.category3.category_name == category.category_nam %}
+
+                                <tr>
+                                    <td>{{ score.username }}</td>
+                                    <td>{{ score.score }}</td>
+                                </tr>
                             {% endif %}
                         {% endif %}
+
                     {% endfor %}
+
+                </table>
+            </div>
+            <div class="gamepart">
+                <div class="games">
+                    <p><b>NEW {{ category.category_name }} GAMES</b></p>
+                    <div class="scrolling-wrapper">
+                        {% for game in games %}
+                            {% if forloop.counter <= 10 %}
+                                {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
+                                    <div class="card">
+                                        <a href="{% url 'gamepage' pk=game.game_name %}"><img
+                                                style="width:100px;height:100px;" src="{{ game.thumbnail }}">
+                                            <p>{{ game.game_name }}</p></a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="games" id="games2">
+                    <p><b>POPULAR {{ category.category_name }} GAMES</b></p>
+                    <div class="scroll">
+                        {% for game in games2 %}
+                            {% if forloop.counter <= 10 %}
+                                {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
+                                    <div class="card">
+                                        <a href="{% url 'gamepage' pk=game.game_name %}"><img
+                                                style="width:100px;height:100px;" src="{{ game.thumbnail }}">
+                                            <p>{{ game.game_name }}</p></a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-            <div class="games" id="games2">
-                <p><b>POPULAR {{ category.category_name }} GAMES</b></p>
-                <div class="scroll">
-                    {% for game in games2 %}
-                        {% if forloop.counter <= 10 %}
-                            {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
-                                <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img
-                                            style="width:100px;height:100px;" src="{{ game.thumbnail }}">
-                                        <p>{{ game.game_name }}</p></a>
-                                </div>
+        </div>
+
+
+        <div class="tab2">
+            <div class="gamepart2">
+                <div class="games">
+                    <p><b>ALL {{ category.category_name }} GAMES</b></p>
+                    <div class="scrolling-wrapper">
+                        {% for game in games3 %}
+
+                            {% if forloop.counter <= 10 %}
+                                {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
+                                    <div class="card">
+                                        <a href="{% url 'gamepage' pk=game.game_name %}"><img
+                                                style="width:100px;height:100px;" src="{{ game.thumbnail }}">
+                                            <p>{{ game.game_name }}</p></a>
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    {% endfor %}
+                        {% endfor %}
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,28 +110,6 @@
         {% for category in categorys %}
             <a href="{% url 'categorypage' pk=category.category_name %}">{{ category.category_name }}</a>
         {% endfor %}
-    </div>
-    <div class="tab2">
-        <div class="gamepart2">
-            <div class="games">
-                <p><b>ALL {{ category.category_name }} GAMES</b></p>
-                <div class="scroll">
-                    {% for game in games3 %}
-
-                        {% if forloop.counter <= 10 %}
-                            {% if category.category_name == game.category1.category_name or category.category_name == game.category2.category_name or category.category_name == game.category3.category_name %}
-                                <div class="card">
-                                    <a href="{% url 'gamepage' pk=game.game_name %}"><img
-                                            style="width:100px;height:100px;" src="{{ game.thumbnail }}">
-                                        <p>{{ game.game_name }}</p></a>
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-
-                </div>
-            </div>
-        </div>
     </div>
 
 {% endblock %}

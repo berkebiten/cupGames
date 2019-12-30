@@ -16,6 +16,10 @@ def index(request):
     games2 = Game.objects.filter(play_count__gte=0).order_by('-play_count')
     games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
+    if 'success' in request.session:
+        print("xd")
+    else:
+        request.session['success'] = False
     return render(request, 'cupApp/index.html',
                   {'games': games, 'scores': scores, 'games2': games2, 'games3': games3, 'categorys': categorys})
 
@@ -112,6 +116,11 @@ def profile(request, pk):
     return render(request, 'cupApp/profile.html', {'account': account, 'favorites': favorites, 'game': game,
                                                    'favcategories': favcategories, 'statistics': statistics,
                                                    'badge': badge})
+
+
+def searchpage(request):
+    games = Game.objects.all()
+    return render(request, 'cupApp/searchpage.html', {'games': games})
 
 
 def leaderboards(request):
@@ -247,19 +256,22 @@ def categorypage(request, pk):
     games = Game.objects.filter(added_date__lte=timezone.now()).order_by('-added_date')
     games2 = Game.objects.filter(play_count__gte=0).order_by('-play_count')
     games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
+    scores = Score.objects.filter(score__gte=0).order_by('-score')
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
     category = get_object_or_404(Category, pk=pk)
     if request.session['success']:
-        favorites = FavCategory.objects.filter(category_name=category.category_name, username=request.session['username'])
+        favorites = FavCategory.objects.filter(category_name=category.category_name,
+                                               username=request.session['username'])
         if favorites:
-            favorites = FavCategory.objects.filter(category_name=category.category_name, username=request.session['username'])
+            favorites = FavCategory.objects.filter(category_name=category.category_name,
+                                                   username=request.session['username'])
         else:
             favorites = "no"
     else:
         favorites = ""
     return render(request, 'cupApp/categorypage.html',
                   {'category': category, 'games': games, 'games2': games2, 'games3': games3, 'categorys': categorys,
-                   'favorites': favorites})
+                   'favorites': favorites, 'scores': scores})
 
 
 def adminpanel(request):

@@ -1,0 +1,40 @@
+{% extends 'cupApp/base.html' %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 110vh;
+        }
+    </style>
+    <div class="searchAGame">
+        <h1>SEARCH FOR A GAME</h1>
+        <input type="text" id="searchInput" onkeyup="searchTableFunction()" placeholder="Search for games..">
+        <div class="scrolling-wrapper2">
+            <table id="searchTable">
+                <tr class="header">
+                    <th style="width:40%;">Name</th>
+                    <th style="width:60%;">Categories</th>
+                </tr>
+
+                {% for game in games %}
+                    <tr>
+                        <td><a href="{% url 'gamepage' pk=game.game_name %}">{{ game.game_name.capitalize }}</a></td>
+                        <td>
+                            {% if game.category1 %}
+                                <a href="{% url 'categorypage' pk=game.category1.category_name %}">{{ game.category1.category_name.upper }}</a>
+                                <br>
+                            {% endif %}
+                            {% if game.category2 %}
+                                <a href="{% url 'categorypage' pk=game.category2.category_name %}">{{ game.category2.category_name.upper }}</a>
+                                <br>
+                            {% endif %}
+                            {% if game.category3 %}
+                                <a href="{% url 'categorypage' pk=game.category3.category_name %}">{{ game.category3.category_name.upper }}</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
