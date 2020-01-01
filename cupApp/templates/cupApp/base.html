@@ -50,8 +50,11 @@
                         <button>Sign Out</button>
                     </a>
 
-                    <button type="button">Search<img src="{% static 'img/searchicon.png' %}" style="width:20px;height:20px;">
-                    </button>
+                    <a href="{% url 'searchpage' %}">
+                        <button id="searchiconbutton" type="button">Search<img src="{% static 'img/searchicon.png' %}"
+                                                                               style="width:20px;height:20px;">
+                        </button>
+                    </a>
 
                 {% else %}
 
@@ -61,9 +64,11 @@
                     <a href="{% url 'register' %}">
                         <button>Register</button>
                     </a>
-                    <a href="{% url 'searchpage' %}"><button id="searchiconbutton" type="button">Search<img src="{% static 'img/searchicon.png' %}"
-                                                                     style="width:20px;height:20px;">
-                    </button></a>
+                    <a href="{% url 'searchpage' %}">
+                        <button id="searchiconbutton" type="button">Search<img src="{% static 'img/searchicon.png' %}"
+                                                                               style="width:20px;height:20px;">
+                        </button>
+                    </a>
 
                 {% endif %}
             </div>

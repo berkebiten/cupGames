@@ -12,7 +12,7 @@
         <a href=" ">
             <button> Edit Profile</button>
         </a>
-        <a href=" ">
+        <a href="{% url 'accountsettings' pk=request.session.username %} ">
             <button> Account Settings</button>
         </a>
     </div>
@@ -20,7 +20,7 @@
     <div class="profile">
         <div class="upperSection">
             <div class="profileCard">
-                <img style="width: 100px; height: 100px;" src="{{ account.profile_pic }}">
+                <img style="width: 100%; height: 10%;" src="{{ account.profile_pic }}">
                 <h1>{{ account.username }}</h1>
                 <i class="fa fa-money" aria-hidden="true" style="color:goldenrod"></i>
                 {{ account.coins }}
@@ -35,7 +35,7 @@
                         {% for favorite in favorites %}
                             <div class="card">
                                 <a href="{% url 'gamepage' pk=favorite.game_name.game_name %}">
-                                    <img style="width:100px;height:100px;" src="{{ favorite.game_name.thumbnail }}">
+                                    <img style="width:90px;height:90px;" src="{{ favorite.game_name.thumbnail }}">
                                     <p>{{ favorite.game_name.game_name }}</p>
                                 </a>
                             </div>
@@ -49,7 +49,7 @@
                             {% for favorite in favcategories %}
                                 <div class="card">
                                     <a href="{% url 'categorypage' pk=favorite.category_name.category_name %}">
-                                        <img style="width:100px;height:100px;"
+                                        <img style="width:90px;height:90px;"
                                              src="{{ favorite.category_name.thumbnail }}">
                                         <p>{{ favorite.category_name.category_name }}</p>
                                     </a>

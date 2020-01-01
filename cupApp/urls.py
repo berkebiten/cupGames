@@ -21,6 +21,9 @@ urlpatterns = [
     path('suggestion/<int:pk>', views.suggestion, name="suggestion"),
     path('addFavoriteCategory/<str:pk>/', views.addfavoritecategory, name="addfavoritecategory"),
     path('removeFavoriteCategory/<str:pk>/', views.removefavoritecategory, name="removefavoritecategory"),
-    path('searchpage', views.searchpage, name="searchpage")
+    path('searchpage', views.searchpage, name="searchpage"),
+    path('accountsettings/<str:pk>', views.accountsettings, name="accountsettings"),
+    path('changepassword/<str:pk>', views.changepassword, name="changepassword"),
+    path('changeemail/<str:pk>', views.changeemail, name="changeemail"),
 
 ]

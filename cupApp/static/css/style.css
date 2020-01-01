@@ -633,6 +633,82 @@ body::-webkit-scrollbar-thumb {
     width: 30%;
 }
 
+.accountsettings {
+    height: 70%;
+    margin: 5% auto 5%;
+    width: 50%;
+    padding: 16px;
+    background-color: #575454;
+}
+
+.accountsettings h1 {
+    color: #E0AE43;
+    text-align: center;
+    margin-top: 0;
+
+}
+
+.accountsettings input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border-top-color: #E0AE43;
+    border-bottom-color: #E0AE43;
+    border-width: 2px 0px 2px 0px;
+    border-style: solid;
+    box-sizing: border-box;
+    background-color: #575454;
+    align-content: center;
+}
+
+
+.accountsettings input:focus {
+    outline: none;
+}
+
+.accountsettings input::-webkit-input-placeholder {
+    font-weight: bold;
+    color: #222222;
+}
+
+.accountsettings button {
+    width: 100px;
+    height: 30px;
+    background-color: #E0AE43;
+    color: #222222;
+    border: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+}
+
+.accountsettings button:hover, button:focus {
+    outline: 0;
+    background-color: #ffcc00;
+    color: #000;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+}
+
+.accountsettings a {
+    margin-left: auto;
+    margin-right: auto;
+    color: #cccccc;
+}
+
+.accountsettings a:hover, a:active {
+    text-decoration: none;
+    color: darksalmon;
+}
+
+.accountsettings img {
+    margin-left: 35%;
+    margin-right: 35%;
+    width: 30%;
+}
+
 .register {
     height: 70%;
     margin: 5% auto 5%;
@@ -662,9 +738,6 @@ body::-webkit-scrollbar-thumb {
     align-content: center;
 }
 
-.genderChoice {
-    background-color: #575454;
-}
 
 .register input:focus {
     outline: none;
@@ -710,6 +783,10 @@ body::-webkit-scrollbar-thumb {
     margin-left: 35%;
     margin-right: 35%;
     width: 30%;
+}
+
+.genderChoice {
+    background-color: #575454;
 }
 
 .adminFunctions {
@@ -823,4 +900,176 @@ body::-webkit-scrollbar-thumb {
     background-color: #C64539;
     border: 2px solid #222222;
 }
-.categoryFavorite{width:100%;}
+.categoryFavorite{
+    width:100%;
+}
+
+.profileCard {
+    background-color:#2B2B2B;
+    float:left;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 18%;
+
+
+  font-family: arial;
+}
+.profileCard h1{
+    text-align:center;
+}
+.profileCard img{
+    border:4px solid grey;
+
+}
+.profileCard i{
+    margin-left:10px;
+    margin-right:10px;
+    float:left;
+}
+
+.profileFunctions {
+    background-color: #2B2B2B;
+    margin-left:10%;
+    width: 80%;
+
+
+}
+.profileFunctions button{
+    float: right;
+    margin-top: 3%;
+    box-shadow: inset 0 1px 0px 0px #ffffff;
+    background: #ededed linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
+    border-radius: 6px;
+    border: 1px solid #dcdcdc;
+    display: inline-block;
+    cursor: pointer;
+    color: #777777;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #ffffff;
+}
+
+.profileFunctions button:hover {
+    background: #dfdfdf linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+}
+
+.profileFunctions button :active {
+    position: relative;
+    top: 1px;
+}
+
+.profile{
+    border: 5px solid black;
+    height:60vh;
+    width:80%;
+    margin-top:5%;
+    margin-left:10%;
+    margin-right:10%;
+}
+.upperSection{
+
+    height:60%;
+}
+.favs {
+
+    margin-left: 5%;
+    float:left;
+
+    width: 45%;
+    height: 90%;
+}
+
+.favoriteGames {
+    margin: 10px auto;
+    width: 100%;
+    background-color: #2B2B2B;
+    text-align: center;
+    color: black;
+}
+.scroll2 {
+    height: 110px;
+    overflow: auto;
+    white-space: nowrap;
+
+
+}
+.statistics{
+    font-weight:bold;
+    font-family:Calibri;
+    font-size:20px;
+    float:right;
+    background-color:#2B2B2B;
+    width:25%;
+    height:90%;
+    margin-top:1.5%;
+    margin-right:2%;
+    padding-left:1%;
+    padding-right:1%;
+}
+.gameChoice{
+
+    width:80%;
+
+
+}
+.gameChoice select{
+    left-margin:10%;
+
+}
+
+.stat{
+    margin-top:2%;
+    height:60%;
+    border:3px solid grey;
+}
+.stat a{
+
+    text-align:center;
+}
+.stat img{
+    margin-top:1%;
+    margin-left:30%;
+}
+.bottomSection{
+
+    height:40%;
+}
+
+.about{
+    font-weight:bold;
+    font-family:Calibri;
+    font-size:20px;
+    float:left;
+    background-color:#2B2B2B;
+    width:40%;
+    height:90%;
+    margin-top:1%;
+    margin-left:2%;
+    padding-left:1%;
+    padding-right:1%;
+}
+.statT{
+    margin-top:2%;
+    height:50%;
+    border:3px solid grey;
+}
+.badges{
+    font-weight:bold;
+    font-family:Calibri;
+    font-size:20px;
+    float:left;
+    background-color:#2B2B2B;
+    width:45%;
+    height:90%;
+    margin-top:1%;
+    margin-left:2%;
+    padding-left:1%;
+    padding-right:1%;
+}
+.badgeImages{
+    margin-top:10%;
+
+    display:inline-block;
+}

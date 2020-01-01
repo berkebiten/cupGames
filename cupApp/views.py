@@ -80,6 +80,36 @@ def forgotPassword2(request, pk):
     return render(request, 'cupApp/forgotPassword2.html', {})
 
 
+def changepassword(request, pk):
+    if request.method == 'POST':
+        password_1 = request.POST.get('password_1')
+        password_2 = request.POST.get('password_2')
+        username = pk
+
+        if password_1 == password_2:
+            Account.objects.filter(username=username).update(password=password_1)
+            return redirect('profile', pk=pk)
+        else:
+            error = "wrong"
+            return render(request, 'cupApp/accountsettings.html', {'error': error})
+    return render(request, 'cupApp/accountsettings.html', {})
+
+
+def accountsettings(request, pk):
+    account = get_object_or_404(Account, username=pk)
+    return render(request, 'cupApp/accountsettings.html', {'account': account})
+
+
+def changeemail(request, pk):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        username = pk
+        Account.objects.filter(username=username).update(email=email)
+        return redirect('profile', pk=pk)
+    else:
+        return render(request, 'cupApp/accountsettings.html', {})
+
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
