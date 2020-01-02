@@ -9,6 +9,7 @@ from .models import Badge
 from .models import Suggestion
 from .models import Favorite
 from .models import FavCategory
+from .models import OwnedBadges
 
 
 # Register your models here.
@@ -22,3 +23,4 @@ admin.site.register(Badge)
 admin.site.register(Suggestion)
 admin.site.register(Favorite)
 admin.site.register(FavCategory)
+admin.site.register(OwnedBadges)

@@ -1,0 +1,29 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+    .ingredients{
+        height:150vh;
+    }
+    </style>
+    <div class="ban">
+        <h1>WARN</h1>
+        <img src={% static 'img/CGLogoIcon.png' %}>
+        <form method="post" action="{% url 'warn' pk=account.username %}">
+            {% csrf_token %}
+            <div class="inputField">
+                <label>User to be banned</label>
+                <input name="username" type="text" id="username" value="{{ account.username }}" readonly required>
+            </div>
+            <div class="inputField">
+                <label>Reason to warn</label>
+                <textarea name="reason_box" placeholder="Reason to ban.."></textarea>
+            </div>
+
+            <div class="loginbutton">
+                <button type="submit">Confirm</button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

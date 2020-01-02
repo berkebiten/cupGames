@@ -311,6 +311,7 @@ body::-webkit-scrollbar-thumb {
     height: 50%;
 }
 
+
 .howToPlay {
     float: right;
     border: 2px solid black;
@@ -331,6 +332,7 @@ body::-webkit-scrollbar-thumb {
     text-align: center;
     color: black;
 }
+
 
 #games2 {
     margin-top: 50px;
@@ -839,8 +841,9 @@ body::-webkit-scrollbar-thumb {
     border: 3px solid #C64539; /* Add a grey border */
     margin-bottom: 12px;
 }
+
 #searchInput:focus {
-    outline:none;
+    outline: none;
 }
 
 #searchTable {
@@ -848,7 +851,7 @@ body::-webkit-scrollbar-thumb {
     width: 100%; /* Full-width */
     border: 3px solid #C64539; /* Add a grey border */
     font-size: 18px; /* Increase font-size */
-    font-weight:bold;
+    font-weight: bold;
 }
 
 #searchTable th {
@@ -867,12 +870,13 @@ body::-webkit-scrollbar-thumb {
     border-bottom: 3px solid #C64539;
 }
 
-#searchTable a{
-    color:#cccccc;
+#searchTable a {
+    color: #cccccc;
 }
-#searchTable a:hover, a:focus, a:active{
-    color:#2B2B2B;
-    text-decoration:none;
+
+#searchTable a:hover, a:focus, a:active {
+    color: #2B2B2B;
+    text-decoration: none;
 }
 
 #searchTable tr.header, #searchTable tr:hover {
@@ -881,9 +885,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 .scrolling-wrapper2 {
-    max-height:500px;
-    overflow-x: auto;
-    overlow-y: hidden;
+    max-height: 500px;
+    overflow-x: hidden;
+    overlow-y: auto;
     white-space: nowrap;
 
 }
@@ -900,59 +904,48 @@ body::-webkit-scrollbar-thumb {
     background-color: #C64539;
     border: 2px solid #222222;
 }
-.categoryFavorite{
-    width:100%;
+
+.categoryFavorite {
+    width: 100%;
 }
 
-.profileCard {
-    background-color:#2B2B2B;
-    float:left;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  width: 18%;
-
-
-  font-family: arial;
-}
-.profileCard h1{
-    text-align:center;
-}
-.profileCard img{
-    border:4px solid grey;
-
-}
-.profileCard i{
-    margin-left:10px;
-    margin-right:10px;
-    float:left;
-}
 
 .profileFunctions {
-    background-color: #2B2B2B;
-    margin-left:10%;
+    margin-top: 3px;
     width: 80%;
-
-
+    margin-left: 10%;
+    margin-right: 10%;
 }
-.profileFunctions button{
+
+.profileFunctions button {
     float: right;
-    margin-top: 3%;
-    box-shadow: inset 0 1px 0px 0px #ffffff;
-    background: #ededed linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
-    border-radius: 6px;
-    border: 1px solid #dcdcdc;
-    display: inline-block;
-    cursor: pointer;
-    color: #777777;
-    font-family: Arial;
-    font-size: 15px;
+    height: 15%;
     font-weight: bold;
+    background: #E0AE43;
+    cursor: pointer;
+    color: #2B2B2B;
+    font-size: 15px;
     padding: 6px 24px;
     text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
+    border: none;
+}
+#ban{
+    background: #C64539;
+}
+#warn{
+    background: #C64539;
+}
+
+#ban:hover{
+    background: #F76B5E;
+}
+
+#warn:hover{
+    background: #F76B5E;
 }
 
 .profileFunctions button:hover {
-    background: #dfdfdf linear-gradient(to bottom, #dfdfdf 5%, #ededed 100%);
+    background: #FFCC5E;
 }
 
 .profileFunctions button :active {
@@ -960,116 +953,212 @@ body::-webkit-scrollbar-thumb {
     top: 1px;
 }
 
-.profile{
+.profile {
     border: 5px solid black;
-    height:60vh;
-    width:80%;
-    margin-top:5%;
-    margin-left:10%;
-    margin-right:10%;
+    height: 100vh;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 37px;
 }
-.upperSection{
 
-    height:60%;
+.upperSection {
+    width: 100%;
+    height: 45%;
 }
+
+.bottomSection {
+    width: 100%;
+    height: 55%;
+}
+
+.profileCard {
+    margin-top:1%;
+    background-color: #2B2B2B;
+    float: left;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 20%;
+}
+
+.profileCard h1 {
+    text-align: center;
+}
+
+.profileCard img {
+    border: 4px solid grey;
+
+}
+
+.profileCard i {
+    margin-left: 10px;
+    margin-right: 10px;
+    float: left;
+}
+
+.about2 {
+    background-color:#575454;
+    float: left;
+    height: 100%;
+    width: 40%;
+    margin-top: 1%;
+    margin-left: 1%;
+
+}
+
+.about2 h2{
+    text-align:center;
+}
+
+.statT {
+    margin-left: 1%;
+    width: 100%;
+}
+
+.statT p {
+
+    width: 90%;
+    word-wrap: break-word;
+}
+
+.profilestats {
+    margin-top: 1%;
+    margin-left: 1%;
+    float: left;
+    width: 35%;
+    height: 100%;
+    background-color: red;
+    text-align:center;
+}
+.profilestats p{
+    color:black;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.profilestats h2{
+    text-align:center;
+}
+
+.gameselect {
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    height: 10%;
+    background-color: blue;
+}
+
+.gamestats {
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    height: 70%;
+    background-color: green;
+}
+
 .favs {
 
-    margin-left: 5%;
-    float:left;
-
+    float: left;
+    margin-top:1%;
+    margin-left: 2.5%;
     width: 45%;
     height: 90%;
 }
 
-.favoriteGames {
-    margin: 10px auto;
+
+.gamesprofile {
     width: 100%;
-    background-color: #2B2B2B;
+    background-color: #575454;
     text-align: center;
     color: black;
 }
-.scroll2 {
-    height: 110px;
-    overflow: auto;
-    white-space: nowrap;
 
-
+.badges {
+    font-size: 20px;
+    float: left;
+    background-color: #575454;
+    width: 45%;
+    margin-top: 1%;
+    margin-left: 4%;
+    padding-left: 1%;
+    padding-right: 1%;
+    text-align: center;
 }
-.statistics{
+.badges p{
     font-weight:bold;
-    font-family:Calibri;
-    font-size:20px;
-    float:right;
-    background-color:#2B2B2B;
-    width:25%;
-    height:90%;
-    margin-top:1.5%;
-    margin-right:2%;
-    padding-left:1%;
-    padding-right:1%;
+    font-size:12px;
 }
-.gameChoice{
-
-    width:80%;
-
-
+.ban {
+    height: 50%;
+    margin: 5% auto 5%;
+    width: 50%;
+    padding: 16px;
+    background-color: #575454;
 }
-.gameChoice select{
-    left-margin:10%;
+
+.ban h1 {
+    color: #E0AE43;
+    text-align: center;
+    margin-top: 0;
 
 }
 
-.stat{
-    margin-top:2%;
-    height:60%;
-    border:3px solid grey;
-}
-.stat a{
-
-    text-align:center;
-}
-.stat img{
-    margin-top:1%;
-    margin-left:30%;
-}
-.bottomSection{
-
-    height:40%;
+.ban input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border-top-color: #E0AE43;
+    border-bottom-color: #E0AE43;
+    border-width: 2px 0px 2px 0px;
+    border-style: solid;
+    box-sizing: border-box;
+    background-color: #575454;
+    align-content: center;
 }
 
-.about{
-    font-weight:bold;
-    font-family:Calibri;
-    font-size:20px;
-    float:left;
-    background-color:#2B2B2B;
-    width:40%;
-    height:90%;
-    margin-top:1%;
-    margin-left:2%;
-    padding-left:1%;
-    padding-right:1%;
+.ban input:focus {
+    outline: none;
 }
-.statT{
-    margin-top:2%;
-    height:50%;
-    border:3px solid grey;
-}
-.badges{
-    font-weight:bold;
-    font-family:Calibri;
-    font-size:20px;
-    float:left;
-    background-color:#2B2B2B;
-    width:45%;
-    height:90%;
-    margin-top:1%;
-    margin-left:2%;
-    padding-left:1%;
-    padding-right:1%;
-}
-.badgeImages{
-    margin-top:10%;
 
-    display:inline-block;
+.ban input::-webkit-input-placeholder {
+    font-weight: bold;
+    color: #222222;
+}
+
+.ban button {
+    width: 100px;
+    height: 30px;
+    background-color: #E0AE43;
+    color: #222222;
+    border: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+}
+
+.ban button:hover, button:focus {
+    outline: 0;
+    background-color: #ffcc00;
+    color: #000;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+}
+
+.ban a {
+    margin-left: auto;
+    margin-right: auto;
+    color: #cccccc;
+}
+
+.ban a:hover, a:active {
+    text-decoration: none;
+    color: darksalmon;
+}
+
+
+.ban img {
+    margin-left: 35%;
+    margin-right: 35%;
+    width: 30%;
 }

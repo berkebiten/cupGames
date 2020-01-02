@@ -1,20 +1,37 @@
 {% extends 'cupApp/base.html' %}
+
 {% load static %}
-
 {% block content %}
-    {% if account.type == "AD" %}
-        <a href="{% url 'adminpanel' %}">
-            <button>ADMIN PANEL</button>
-        </a>
-    {% endif %}
+    <style>
+        .ingredients {
+            height: 150vh;
+        }
+    </style>
+     <div class="profileFunctions">
+    {% if account.username == request.session.username %}
 
-    <div class="profileFunctions">
-        <a href=" ">
-            <button> Edit Profile</button>
-        </a>
-        <a href="{% url 'accountsettings' pk=request.session.username %} ">
-            <button> Account Settings</button>
-        </a>
+            {% if account.type == "AD" %}
+                <a href="{% url 'adminpanel' %}">
+                    <button>ADMIN PANEL</button>
+                </a>
+            {% endif %}
+            <a href=" ">
+                <button> Edit Profile</button>
+            </a>
+            <a href="{% url 'accountsettings' pk=request.session.username %} ">
+                <button> Account Settings</button>
+            </a>
+
+    {% else %}
+        {% if request.session.type == "admin" %}
+            <a href="{% url 'ban' pk=account.username %}">
+                <button id="ban" >BAN</button>
+            </a>
+            <a href="{% url 'warn' pk=account.username %}">
+                <button id="warn" >WARN</button>
+            </a>
+        {% endif %}
+    {% endif %}
     </div>
 
     <div class="profile">
@@ -28,10 +45,42 @@
                 <i class="fa fa-level-up" aria-hidden="true" style="color:#4CAF50"></i>
                 {{ account.level }}
             </div>
+            <div class="about2">
+                <h2>About Me</h2>
+                <div class="statT">
+                    <p>{{ account.about_text }}.</p>
+                </div>
+            </div>
+            <div class="profilestats">
+                <h2>Statistics</h2>
+                {% if account.type == 'PU' or account.type == 'AD' %}
+                    <div class="gameselect">
+                        <!-- game selection box will be here !-->
+                    </div>
+                    <div class="gamestats">
+                        <!-- stats about the selected game will be here !-->
+                    </div>
+                {% else %}
+                    <div class="locked">
+                        {% if account.username == request.session.username %}
+                            <a href="{% url 'becomepremium' pk=account.username %}">
+                        {% endif %}
+                        <img src="{% static 'img/lockicon.png' %}">
+                        <p> {{ account.username.upper }} IS NOT PREMIUM </p>
+                        {% if account.username == request.session.username %}
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+        <div class="bottomSection">
             <div class="favs">
-                <div class="favoriteGames">
+
+                <div class="gamesprofile">
                     <p><b>FAVORITE GAMES</b></p>
-                    <div class="scroll2">
+                    <div class="scrolling-wrapper">
                         {% for favorite in favorites %}
                             <div class="card">
                                 <a href="{% url 'gamepage' pk=favorite.game_name.game_name %}">
@@ -42,78 +91,33 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="favoriteGames">
+                <div class="gamesprofile">
                     <p><b>FAVORITE CATEGORIES</b></p>
-                    <div class="scroll2">
+                    <div class="scrolling-wrapper">
+                        {% for favorite in favcategories %}
+                            <div class="card">
+                                <a href="{% url 'categorypage' pk=favorite.category_name.category_name %}">
+                                    <img style="width:90px;height:90px;"
+                                         src="{{ favorite.category_name.thumbnail }}">
+                                    <p>{{ favorite.category_name.category_name }}</p>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="badges">
+                <p style="color:black;font-size:15px;"><b>BADGES</b></p>
+                <div class="scrolling-wrapper">
+                    {% for badge in ownedBadges2 %}
                         <div class="card">
-                            {% for favorite in favcategories %}
-                                <div class="card">
-                                    <a href="{% url 'categorypage' pk=favorite.category_name.category_name %}">
-                                        <img style="width:90px;height:90px;"
-                                             src="{{ favorite.category_name.thumbnail }}">
-                                        <p>{{ favorite.category_name.category_name }}</p>
-                                    </a>
-                                </div>
-                            {% endfor %}
+                            <img style="width:100px;height:100px;" src="{{ badge.badge_name.thumbnail }}">
+                            <p>{{ badge.badge_name.badge_name }}</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-            {% if account.type == 'PU' or account.type == 'AD' %}
-                {% for games in game %}
-                    {% for stats in statistics %}
-                        {% if stats.game_name.game_name == games.game_name %}
-                            <div class="statistics">
-                                Statistics for {{ stats.game_name.game_name }}
-                                <div class="stat">
-                                    <p>Average Score: {{ stats.average_score }}</p>
-                                    <p>Last Score: {{ stats.last_score }}</p>
-                                    <p>Play Count:{{ stats.play_count }}</p>
-                                    <p>Rank:{{ stats.rank }}</p>
-                                </div>
-                            </div>
-                        {% endif %}
                     {% endfor %}
-                {% endfor %}
-            {% else %}
-                <div class="statistics">
-                    Statistics
-
-                    <div class="stat">
-                        <a href="{% url 'becomepremium' pk=request.session.username %}"><img
-                                src={% static 'img/lockicon.png' %} }}></a>
-                        <a href="{% url 'becomepremium' pk=request.session.username %}"><p>BECOME PREMIUM TO SEE
-                            STATISTICS.</p></a>
-                    </div>
-                </div>
-            {% endif %}
-
-
-        </div>
-        <section class="bottomSection">
-            <div class="about">
-                About:
-                <div class="statT">
-                    <p>{{ account.about_text }}.</p>
                 </div>
             </div>
-            {% for games in game %}
-                {% for badges in badge %}
-                    {% if badges.game_name.game_name == games.game_name %}
-                        <div class="badges">
-                            badges for {{ badge.game_name.game_name }}
-                            <div class="badgeImages">
-                                {% if badges.is_owned %}
-                                    <p>{{ badges.badge_name }} <img src="{{ badges.thumbnail }}"> </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-
-        </section>
-    </div>
+        </div>
     </div>
 
 

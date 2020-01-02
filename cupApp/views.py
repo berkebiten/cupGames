@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge, Favorite, FavCategory
+from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge, Favorite, FavCategory, OwnedBadges
 from django.utils import timezone
 from .forms import RegisterForm
 from datetime import date
@@ -37,12 +37,14 @@ def login(request):
                 request.session['username'] = username
                 request.session['success'] = True
                 request.session['playLimit'] = account.playLimit
+                request.session['type'] = "admin"
                 return redirect("adminpanel")
             else:
                 username = request.POST['username']
                 request.session['username'] = username
                 request.session['success'] = True
                 request.session['playLimit'] = account.playLimit
+                request.session['type'] = "user"
                 return redirect("index")
         else:
             error = "wrong"
@@ -132,6 +134,7 @@ def register(request):
 def logoutpage(request):
     del request.session['username']
     del request.session['playLimit']
+    del request.session['type']
     request.session['success'] = False
     return HttpResponseRedirect(reverse('index'))
 
@@ -142,10 +145,10 @@ def profile(request, pk):
     game = Game.objects.all()
     favcategories = FavCategory.objects.filter(username=account.username)
     statistics = Statistic.objects.filter(username=account.username)
-    badge = Badge.objects.filter(username=account.username)
+    ownedBadges2 = OwnedBadges.objects.filter(username=account.username)
     return render(request, 'cupApp/profile.html', {'account': account, 'favorites': favorites, 'game': game,
                                                    'favcategories': favcategories, 'statistics': statistics,
-                                                   'badge': badge})
+                                                   'ownedBadges2': ownedBadges2})
 
 
 def searchpage(request):
@@ -306,3 +309,22 @@ def categorypage(request, pk):
 
 def adminpanel(request):
     return render(request, 'cupApp/adminpanel.html')
+
+
+def ban(request, pk):
+    account = get_object_or_404(Account, pk=pk)
+    if request.method == "POST":
+        Account.objects.filter(username=account.username).update(is_banned=True)
+        return redirect('adminpanel')
+    return render(request, 'cupApp/ban.html', {'account': account})
+
+def warn(request, pk):
+    account = get_object_or_404(Account, pk=pk)
+    if request.method == "POST":
+        warnV = account.warn_value + 10
+        Account.objects.filter(username=account.username).update(warn_value=warnV)
+        if account.warn_value >= 100:
+            Account.objects.filter(username=account.username).update(is_banned=True)
+        return redirect('adminpanel')
+    return render(request, 'cupApp/warn.html', {'account': account})
+

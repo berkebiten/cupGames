@@ -79,14 +79,18 @@ class Statistic(models.Model):
 
 
 class Badge(models.Model):
-    username = models.ForeignKey(Account, related_name='badge_owner', on_delete=models.CASCADE)
     game_name = models.ForeignKey(Game, related_name='badge_game', on_delete=models.CASCADE, null=True, blank=True)
     badge_name = models.CharField(max_length=50)
-    is_owned = models.BooleanField()
     thumbnail = models.CharField(max_length=1500)
 
     def __str__(self):
         return self.badge_name
+
+
+class OwnedBadges(models.Model):
+    username = models.ForeignKey(Account, related_name='badge_owner', on_delete=models.CASCADE)
+    badge_name = models.ForeignKey(Badge, related_name='badge_badge_name', on_delete=models.CASCADE)
+
 
 
 class Suggestion(models.Model):
