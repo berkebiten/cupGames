@@ -7,31 +7,31 @@
             height: 150vh;
         }
     </style>
-     <div class="profileFunctions">
-    {% if account.username == request.session.username %}
+    <div class="profileFunctions">
+        {% if account.username == request.session.username %}
 
             {% if account.type == "AD" %}
                 <a href="{% url 'adminpanel' %}">
                     <button>ADMIN PANEL</button>
                 </a>
             {% endif %}
-            <a href=" ">
+            <a href="{% url 'editprofile' pk=request.session.username %} ">
                 <button> Edit Profile</button>
             </a>
             <a href="{% url 'accountsettings' pk=request.session.username %} ">
                 <button> Account Settings</button>
             </a>
 
-    {% else %}
-        {% if request.session.type == "admin" %}
-            <a href="{% url 'ban' pk=account.username %}">
-                <button id="ban" >BAN</button>
-            </a>
-            <a href="{% url 'warn' pk=account.username %}">
-                <button id="warn" >WARN</button>
-            </a>
+        {% else %}
+            {% if request.session.type == "admin" %}
+                <a href="{% url 'ban' pk=account.username %}">
+                    <button id="ban">BAN</button>
+                </a>
+                <a href="{% url 'warn' pk=account.username %}">
+                    <button id="warn">WARN</button>
+                </a>
+            {% endif %}
         {% endif %}
-    {% endif %}
     </div>
 
     <div class="profile">
@@ -54,12 +54,30 @@
             <div class="profilestats">
                 <h2>Statistics</h2>
                 {% if account.type == 'PU' or account.type == 'AD' %}
-                    <div class="gameselect">
-                        <!-- game selection box will be here !-->
-                    </div>
-                    <div class="gamestats">
-                        <!-- stats about the selected game will be here !-->
-                    </div>
+                        <div class="gameselect">
+                        <select class="tablinks" onchange="tab1(event, value)">
+                        <option value=""> Choose a game..</option>
+                                {% for games in game %}
+                                    <option value="{{ games.game_name }}">{{ games.game_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="gamestats">
+                            {% for games in game %}
+                                <div id="{{ games.game_name }}" class="tabcontent">
+                                    {% for stats in statistics %}
+                                        {% if games.game_name == stats.game_name.game_name %}
+                                            <h3>Play Count: {{ stats.play_count }}</h3>
+                                            <h3>Last Score:{{ stats.last_score }}</h3>
+                                            <h3>Average Score: {{ stats.average_score }}</h3>
+                                            <h3>Rank: {{ stats.rank }}</h3>
+                                        {% else %}
+                                            <p>There is no stats for the selected game.</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
                 {% else %}
                     <div class="locked">
                         {% if account.username == request.session.username %}

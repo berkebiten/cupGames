@@ -14,18 +14,18 @@ function tab(evt, leaderboarName) {
     evt.currentTarget.className += " active";
 }
 
-function login() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    if (username == "user" && password == "password") {
-        window.location.href = 'HomepageUser.html';
-    } else if (username == "admin" && password == "password") {
-        window.location.href = 'HomepageAdmin.html';
-    } else if (username == "premium" && password == "password") {
-        window.location.href = 'HomepagePremium.html';
-    } else {
-        alert("Wrong username or password");
+function tab1(evt, game_name) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
     }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(game_name).style.display = "block";
+    evt.currentTarget.className += " active";
 }
 
 function myFunction() {
@@ -46,7 +46,7 @@ window.onclick = function (event) {
 }
 
 
-function checkFunc(checkId) { // check all checkboxes when checked ALL
+function checkFunc(checkId) {
     var inputs = document.getElementsByTagName("input");
     for (var i = 0; i < inputs.length; i++) {
         if (inputs[i].type === "checkbox" && inputs[i].id === checkId) {

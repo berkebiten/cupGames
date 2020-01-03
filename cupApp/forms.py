@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account
+from .models import Account, Game
 
 GENDER_CHOICES = [
     ("F", "Female"),
@@ -28,3 +28,4 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = Account
         fields = ('username', 'password')
+

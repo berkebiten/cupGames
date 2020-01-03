@@ -1,0 +1,44 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 110vh;
+        }
+    </style>
+    <div class="accountsettings">
+        <h1>EDIT PROFILE</h1>
+        <p>{{ error }}</p>
+        <img src={% static 'img/CGLogoIcon.png' %}>
+        <br method="post" action="{% url 'editprofile' pk=request.session.username %}">
+        {% csrf_token %}
+        <p>Link of the Profile Picture</p>
+        <input type="text" name="profile_pic" placeholder="{{ account.profile_pic }}"/>
+        <div class="gender">
+            <br><p>Gender: </p>
+            <select name="dropdown">
+                {% if account.gender == 'M' %}
+                    <option value="M" selected>Male</option>
+                {% else %}
+                    <option value="M">Male</option>
+                {% endif %}
+                {% if account.gender == 'F' %}
+                    <option value="F" selected>Female</option>
+                {% else %}
+                    <option value="F">Female</option>
+                {% endif %}
+                {% if account.gender == 'O' %}
+                    <option value="O" selected>Other</option>
+                {% else %}
+                    <option value="O">Other</option>
+                {% endif %}
+            </select>
+        </div>
+        <br>
+        <br><p>About</p>
+        <textarea id="txtarea" type="text" name="about"
+                  placeholder="{{ account.about_text }}"></textarea>
+        <button type="submit">Save</button>
+        </form>
+    </div>
+{% endblock %}

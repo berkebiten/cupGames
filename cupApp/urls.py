@@ -25,6 +25,7 @@ urlpatterns = [
     path('accountsettings/<str:pk>', views.accountsettings, name="accountsettings"),
     path('changepassword/<str:pk>', views.changepassword, name="changepassword"),
     path('changeemail/<str:pk>', views.changeemail, name="changeemail"),
+    path('editprofile/<str:pk>', views.editprofile, name="editprofile"),
     path('ban/<str:pk>', views.ban, name="ban"),
     path('warn/<str:pk>', views.warn, name="warn"),
 

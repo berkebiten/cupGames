@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge, Favorite, FavCategory, OwnedBadges
+from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge, Favorite, FavCategory, \
+    OwnedBadges
 from django.utils import timezone
 from .forms import RegisterForm
 from datetime import date
@@ -102,6 +103,17 @@ def accountsettings(request, pk):
     return render(request, 'cupApp/accountsettings.html', {'account': account})
 
 
+def editprofile(request, pk):
+    account = get_object_or_404(Account, username=pk)
+    if request.method == 'POST':
+        gender = request.POST.get('dropdown')
+        about = request.POST.get('about')
+        profile_pic = request.POST.get('profile_pic')
+        Account.objects.filter(username=account.username).update(gender=gender, about_text=about, profile_pic=profile_pic)
+        return redirect('profile', pk=pk)
+    return render(request, 'cupApp/editprofile.html', {'account': account})
+
+
 def changeemail(request, pk):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -146,9 +158,12 @@ def profile(request, pk):
     favcategories = FavCategory.objects.filter(username=account.username)
     statistics = Statistic.objects.filter(username=account.username)
     ownedBadges2 = OwnedBadges.objects.filter(username=account.username)
+    game_stats = ""
+    if request.POST == 'POST':
+        game_stats = request.POST.get('statistics')
     return render(request, 'cupApp/profile.html', {'account': account, 'favorites': favorites, 'game': game,
                                                    'favcategories': favcategories, 'statistics': statistics,
-                                                   'ownedBadges2': ownedBadges2})
+                                                   'ownedBadges2': ownedBadges2, 'game_stats': game_stats})
 
 
 def searchpage(request):
@@ -318,6 +333,7 @@ def ban(request, pk):
         return redirect('adminpanel')
     return render(request, 'cupApp/ban.html', {'account': account})
 
+
 def warn(request, pk):
     account = get_object_or_404(Account, pk=pk)
     if request.method == "POST":
@@ -327,4 +343,3 @@ def warn(request, pk):
             Account.objects.filter(username=account.username).update(is_banned=True)
         return redirect('adminpanel')
     return render(request, 'cupApp/warn.html', {'account': account})
-

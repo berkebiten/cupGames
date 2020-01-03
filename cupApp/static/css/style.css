@@ -643,6 +643,13 @@ body::-webkit-scrollbar-thumb {
     background-color: #575454;
 }
 
+.accountsettings select{
+    background-color: #575454;
+}
+.gender p{
+    float:left;
+}
+
 .accountsettings h1 {
     color: #E0AE43;
     text-align: center;
