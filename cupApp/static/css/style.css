@@ -159,12 +159,18 @@ body::-webkit-scrollbar-thumb {
 }
 
 .suggestionView {
-    margin-top: 2%;
+    margin-top: 5%;
     float: left;
     margin-left: 3%;
     width: 75%;
-    height: 90%;
-    border: 5px solid black;
+    height: 95%;
+    border: 5px solid #575454;
+}
+
+.gamewindow{
+    width:100%;
+    height:100%;
+    background:black;
 }
 
 .upper {
@@ -302,6 +308,8 @@ body::-webkit-scrollbar-thumb {
     display: none;
     padding: 6px 12px;
     border-top: none;
+    margin-left:3%;
+    width:75%;
 }
 
 .about {
@@ -326,6 +334,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .games {
+    border: 4px solid #222222;
     margin-top: 50px;
     width: 100%;
     background-color: #575454;
@@ -344,10 +353,9 @@ body::-webkit-scrollbar-thumb {
 
 .gamepart2 {
     float: right;
-    width: 100%;
+    width: 90%;
     height: 60%;
     margin-bottom: 3%;
-    margin-left: 5%;
 }
 
 .games2 {
@@ -453,39 +461,46 @@ body::-webkit-scrollbar-thumb {
 
 
 .bottom {
-    background-color: #232020;
+    border: 5px solid #2B2B2B;
+    background-color: #575454;
     margin-bottom: 10px;
     height: 150px;
 
 }
 
 .paragraph {
-
-    color: black;
     float: left;
+    width:75%;
+    height:100%;
+}
+
+.paragraph p{
+    width:90%;
+    font-weight:bold;
+    font-size:20px;
+    color:#222222;
+    word-wrap: break-word;
+    text-align:center;
 }
 
 .suggest {
-    width: 200px;
+    width: 25%;
+    height:100%;
     float: right;
 }
 
 .suggest button {
     margin-top: 10%;
-    margin-right: 50%;
-    box-shadow: inset 0px 1px 0px 0px #ffffff;
-    background: #ededed linear-gradient(to bottom, #ededed 5%, #dfdfdf 100%);
-    border-radius: 6px;
-    border: 1px solid #dcdcdc;
-    display: inline-block;
-    cursor: pointer;
-    color: #777777;
-    font-family: Arial;
-    font-size: 30px;
+    width:70%;
+    height:50%;
     font-weight: bold;
+    background: #E0AE43;
+    cursor: pointer;
+    color: #2B2B2B;
+    font-size: 15px;
     padding: 6px 24px;
     text-decoration: none;
-    text-shadow: 0px 1px 0px #ffffff;
+    border: none;
 }
 
 .suggest button:hover {
@@ -497,16 +512,7 @@ body::-webkit-scrollbar-thumb {
     top: 1px;
 }
 
-.tab button {
-    font-weight: bold;
-    background: #2B2B2B;
-    cursor: pointer;
-    color: #E0AE43;
-    font-size: 15px;
-    padding: 6px 24px;
-    text-decoration: none;
-    border: none;
-}
+
 
 .leaderboardtables {
     margin-left: 40%;
@@ -531,11 +537,22 @@ body::-webkit-scrollbar-thumb {
 }
 
 .tab {
-    margin-top: 3%;
-    width: 100%;
+    margin-left:3%;
+    width: 75%;
     overflow: hidden;
-    background-color: #2B2B2B;
-    float: left;
+    background-color: #575454;
+
+}
+.tab button {
+    margin-left:3%;
+    font-weight: bold;
+    background: #575454;
+    cursor: pointer;
+    color: #E0AE43;
+    font-size: 15px;
+    padding: 6px 24px;
+    text-decoration: none;
+    border: none;
 }
 
 .tab button:hover {
