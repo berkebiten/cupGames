@@ -1,0 +1,69 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 130vh;
+        }
+    </style>
+    <div class="accountsettings">
+        <h1>ADD A GAME</h1>
+        <img src={% static 'img/CGLogoIcon.png' %}>
+        <form method="post" action="{% url 'addGame' %}">
+            <p>{{ error }}</p>
+            {% csrf_token %}
+            <div class="inputField">
+                <input type="text" id="game_name" placeholder="Game Name" name="game_name" required>
+            </div>
+            <div class="inputField">
+                <input type="text" id="game_link" placeholder="Game Link" name="game_link" required>
+            </div>
+            <div class="gender">
+                <br>
+                <p>Type: </p>
+                <select name="dropdownT">
+                    <option value="F">Flash</option>
+                    <option value="J">JavaScript</option>
+                    <option value="H">HTML</option>
+                </select>
+            </div>
+            <div class="inputField">
+                <input type="text" id="game_thumbnail" placeholder="Thumbnail" name="game_thumbnail" required>
+            </div>
+            <textarea name="game_about" placeholder="Game description" required></textarea>
+            <textarea name="how_to_play" placeholder="How To Play" required></textarea>
+            <div class="gender">
+                <br>
+                <p>Category 1: </p>
+                <select name="dropdown1">
+                    {% for category in categorys %}
+                        <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="gender">
+                <br>
+                <p>Category 2: </p>
+                <select name="dropdown2">
+                    <option value="None">None</option>
+                    {% for category in categorys %}
+                        <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="gender">
+                <br>
+                <p>Category 3: </p>
+
+                <select name="dropdown3">
+                    <option value="None">None</option>
+                    {% for category in categorys %}
+                        <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}

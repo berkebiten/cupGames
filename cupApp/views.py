@@ -109,7 +109,8 @@ def editprofile(request, pk):
         gender = request.POST.get('dropdown')
         about = request.POST.get('about')
         profile_pic = request.POST.get('profile_pic')
-        Account.objects.filter(username=account.username).update(gender=gender, about_text=about, profile_pic=profile_pic)
+        Account.objects.filter(username=account.username).update(gender=gender, about_text=about,
+                                                                 profile_pic=profile_pic)
         return redirect('profile', pk=pk)
     return render(request, 'cupApp/editprofile.html', {'account': account})
 
@@ -343,3 +344,43 @@ def warn(request, pk):
             Account.objects.filter(username=account.username).update(is_banned=True)
         return redirect('adminpanel')
     return render(request, 'cupApp/warn.html', {'account': account})
+
+
+def addGame(request):
+    categorys = Category.objects.all()
+    if request.method == "POST":
+        game_name = request.POST.get('game_name')
+        game_link = request.POST.get('game_link')
+        game_type = request.POST.get('dropdownT')
+        game_thumbnail = request.POST.get('game_thumbnail')
+        game_about = request.POST.get('game_about')
+        how_to_play = request.POST.get('how_to_play')
+        category1_name = request.POST.get('dropdown1')
+        category2_name = request.POST.get('dropdown2')
+        category3_name = request.POST.get('dropdown3')
+        category1 = get_object_or_404(Category, pk=category1_name)
+        if category2_name == "None":
+            category2 = None
+        else:
+            category2 = get_object_or_404(Category, pk=category2_name)
+
+        if category3_name == "None":
+            category3 = None
+        else:
+            category3 = get_object_or_404(Category, pk=category3_name)
+        game = Game.objects.create(game_name=game_name, link=game_link, type=game_type,
+                                   thumbnail=game_thumbnail, about_text=game_about, how_to_play_text=how_to_play,
+                                   category1=category1, category2=category2, category3=category3, play_count=0, )
+
+        return redirect('adminpanel')
+    else:
+        return render(request, 'cupApp/addGame.html', {'categorys': categorys})
+
+def deleteGame(request):
+    games = Game.objects.all()
+    if request.method=="POST":
+        game=get_object_or_404(Game, pk=request.POST.get('game_name'))
+        game.delete()
+        return redirect('deleteGame')
+
+    return render(request, 'cupApp/deleteGame.html', {'games': games})

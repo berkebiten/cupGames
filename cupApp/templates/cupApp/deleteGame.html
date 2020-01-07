@@ -1,0 +1,34 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 130vh;
+        }
+    </style>
+    <div class="accountsettings">
+        <h1 style="color:#C64539">DELETE GAME</h1>
+        <input style="background:#575454" type="text" id="searchInput" onkeyup="searchTableFunction()"
+               placeholder="Search for games..">
+        <div class="scrolling-wrapper2">
+            <table id="searchTable">
+                <tr class="header">
+                    <th style="width:95%;">Name</th>
+                    <th style="width:5%;">Delete</th>
+                </tr>
+
+                {% for game in games %}
+                    <tr>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="text" value="{{ game.game_name }}" style="display:none;" name="game_name">
+                            <td><a href="{% url 'gamepage' pk=game.game_name %}">{{ game.game_name.capitalize }}</a></td>
+                            <td><button style="background:#2B2B2B;color:#575454;width:50%;" type="submit">X</button></td>
+                        </form>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+{% endblock %}

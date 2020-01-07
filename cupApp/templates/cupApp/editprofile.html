@@ -10,7 +10,7 @@
         <h1>EDIT PROFILE</h1>
         <p>{{ error }}</p>
         <img src={% static 'img/CGLogoIcon.png' %}>
-        <br method="post" action="{% url 'editprofile' pk=request.session.username %}">
+        <form method="post" action="{% url 'editprofile' pk=request.session.username %}">
         {% csrf_token %}
         <p>Link of the Profile Picture</p>
         <input type="text" name="profile_pic" placeholder="{{ account.profile_pic }}"/>

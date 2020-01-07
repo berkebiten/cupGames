@@ -11,7 +11,9 @@
 
         <div class="suggestionView">
             <div class="gamewindow">
-                <!--<object type="application/x-shockwave-flash" id=""
+                {% if request.session.success %}
+                    {% if game.type == 'F' %}
+                        <!--<object type="application/x-shockwave-flash" id=""
                         data="  {{ game.link }} "
                         width="100%" height="100%">
                     <param name="menu" value="false">
@@ -21,9 +23,28 @@
                     <param name="bgcolor" value="">
                     <param name="wmode" value="direct">
                 </object>!-->
-                <embed src="{{ game.link }}" quality="high"
-                       type="application/x-shockwave-flash" wmode="transparent" width="100%" height="100%"
-                       pluginspage="http://www.macromedia.com/go/getflashplayer" allowScriptAccess="always"/>
+                        <embed src="{{ game.link }}" quality="high"
+                               type="application/x-shockwave-flash" wmode="transparent" width="100%" height="100%"
+                               pluginspage="http://www.macromedia.com/go/getflashplayer" allowScriptAccess="always"/>
+                    {% endif %}
+                    {% if game.type == 'H' %}
+                        <iframe src="{{ game.link }}" frameborder="0" scrolling="no" width="100%" height="100%"
+                                allowfullscreen></iframe>
+                    {% endif %}
+                    {% if game.type == 'J' %}
+                        <script src="{{ game.link }}"></script>
+                    {% endif %}
+
+                {% else %}
+
+                    <div class="buttons">
+                        <p1>YOU NEED TO LOGIN TO PLAY</p1>
+                        <a href="{% url 'login' %}">
+                            <button>LOGIN</button>
+                        </a>
+                    </div>
+
+                {% endif %}
             </div>
         </div>
         <div class="categoryBar">

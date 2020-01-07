@@ -163,7 +163,7 @@ body::-webkit-scrollbar-thumb {
     float: left;
     margin-left: 3%;
     width: 75%;
-    height: 95%;
+    height: 100%;
     border: 5px solid #575454;
 }
 
@@ -1186,3 +1186,4 @@ body::-webkit-scrollbar-thumb {
     margin-right: 35%;
     width: 30%;
 }
+

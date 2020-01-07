@@ -44,6 +44,7 @@ class Game(models.Model):
     category1 = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name='cat_1', blank=True, null=True)
     category2 = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name='cat_2', blank=True, null=True)
     category3 = models.ForeignKey(Category, on_delete=models.DO_NOTHING, related_name='cat_3', blank=True, null=True)
+    type = models.CharField(max_length=1, default='F')
 
     def __str__(self):
         return self.game_name
