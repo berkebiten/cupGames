@@ -3,20 +3,29 @@
 
 {% block content %}
     <style>
-    .ingredients {
-        height: 60vh;
-    }
-</style>
+        .ingredients {
+            height: 60vh;
+        }
+    </style>
 
     <div class="adminFunctions">
 
         <div class="buttons">
             <p1>ADMIN PANEL</p1>
-            <button id="banButton" onclick="window.location.href = 'BanUser.html';">SEARCH (BAN&WARN) USER</button>
-            <a href="{% url 'viewSuggestions' %}"><button id="seeSuggestionsButton" onclick="window.location.href = 'GameSuggestions.html';">GAME SUGGESTIONS
-            </button></a>
-            <a href="{% url 'addGame' %}"><button id="addGameButton">ADD GAME</button></a>
-            <a href="{% url 'deleteGame' %}"><button id="addGameButton">DELETE GAME</button></a>
+            <a href="{% url 'searchusers' %}">
+                <button id="banButton">SEARCH (BAN&WARN) USER</button>
+            </a>
+            <a href="{% url 'viewSuggestions' %}">
+                <button id="seeSuggestionsButton" onclick="window.location.href = 'GameSuggestions.html';">GAME
+                    SUGGESTIONS
+                </button>
+            </a>
+            <a href="{% url 'addGame' %}">
+                <button id="addGameButton">ADD GAME</button>
+            </a>
+            <a href="{% url 'deleteGame' %}">
+                <button id="addGameButton">DELETE GAME</button>
+            </a>
         </div>
     </div>
 {% endblock %}

@@ -376,11 +376,17 @@ def addGame(request):
     else:
         return render(request, 'cupApp/addGame.html', {'categorys': categorys})
 
+
 def deleteGame(request):
     games = Game.objects.all()
-    if request.method=="POST":
-        game=get_object_or_404(Game, pk=request.POST.get('game_name'))
+    if request.method == "POST":
+        game = get_object_or_404(Game, pk=request.POST.get('game_name'))
         game.delete()
         return redirect('deleteGame')
 
     return render(request, 'cupApp/deleteGame.html', {'games': games})
+
+
+def searchusers(request):
+    accounts = Account.objects.all()
+    return render(request, 'cupApp/searchusers.html', {'accounts': accounts})

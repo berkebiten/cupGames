@@ -1,0 +1,49 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 130vh;
+        }
+    </style>
+    <div style="width:80%;" class="accountsettings">
+        <h1 style="color:#C64539">SEARCH USERS</h1>
+        <input style="background:#575454" type="text" id="searchInput" onkeyup="searchTableFunction()"
+               placeholder="Search for users..">
+        <div class="scrolling-wrapper2">
+            <table id="searchTable">
+                <tr class="header">
+                    <th style="width:40%;">Name</th>
+                    <th style="width:20%;">Type</th>
+                    <th style="width:10%;">Ban Status</th>
+                    <th style="width:10%;">Warn Value</th>
+                    <th style="width:10%;">Ban</th>
+                    <th style="width:10%;">Warn</th>
+
+                </tr>
+
+                {% for account in accounts %}
+                    <tr>
+
+                        <td><a href="{% url 'profile' pk=account.username %}">{{ account.username }}</a></td>
+                        <td>{{ account.type }}</td>
+                        <td>{{ account.is_banned }}</td>
+                        <td>{{ account.warn_value }}</td>
+                        <td>
+                            <a href="{% url 'ban' pk=account.username %}">
+                                <button style="background:#2B2B2B;color:#575454;width:100%;" type="submit">BAN</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'warn' pk=account.username %}">
+                                <button style="background:#2B2B2B;color:#575454;width:100%;" type="submit">WARN</button>
+                            </a>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
