@@ -1,0 +1,27 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .ingredients {
+            height: 110vh;
+        }
+    </style>
+    <div class="suggestionX">
+        <a href="{% url 'viewScoreSubmissions' %}" style="font-size:35px; color:#E0AE43;"><i class="fa fa-arrow-circle-left"
+                                                                                   aria-hidden="true"></i></a>
+        <div class="details">
+            <p style="color:#E0AE43;text-decoration: underline;">SCORE SUBMISSION {{ submission.submissionId }}</p>
+        </div>
+        <div>
+            <p>Score: {{ submission.score }}</p>
+            <p>Username: {{ submission.user.username }}</p>
+            <p>Game: {{ submission.game.game_name }}</p>
+            <p>Proof Link: <a style="color:#E0AE43" href="{{ submission.proof }}">{{ submission.proof }}</a></p>
+            <p>Date: {{ submission.score_date }}</p>
+        </div>
+        <form method="post" style="text-align:center;">
+            {% csrf_token %}
+            <button type="submit">CONFIRM</button>
+        </form>
+    </div>
+{% endblock %}

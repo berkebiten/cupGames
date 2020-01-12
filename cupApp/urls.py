@@ -31,5 +31,8 @@ urlpatterns = [
     path('addgame', views.addGame, name="addGame"),
     path('deletegame', views.deleteGame, name="deleteGame"),
     path('searchusers', views.searchusers, name="searchusers"),
+    path('updatePlayTime', views.updatePlayTime, name="updatePlayTime"),
+    path('viewScoreSubmissions', views.viewScoreSubmissions, name="viewScoreSubmissions"),
+    path('scoreSubmission/<int:pk>', views.scoreSubmission, name="scoreSubmission")
 
 ]

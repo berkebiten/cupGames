@@ -1,0 +1,31 @@
+{% extends 'cupApp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .ingredients {
+            height: 110vh;
+        }
+    </style>
+
+    <div class="suggestTables">
+        <a href="{% url 'adminpanel' %}" style="font-size:35px; color:#E0AE43;"><i class="fa fa-arrow-circle-left"
+                                                                                   aria-hidden="true"></i></a>
+        <p1>SCORE SUBMISSIONS</p1>
+        <br>
+        <div class="scrolling-wrapper3">
+            <table id="suggestTable">
+                <tr class="header">
+                    <th>SUBMISSION</th>
+                </tr>
+                {% for submission in submissions %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'scoreSubmission' pk=submission.submissionId %}">Submission {{ submission.submissionId }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

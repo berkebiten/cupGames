@@ -4,7 +4,7 @@
 {% block content %}
     <style>
         .ingredients {
-            height: 60vh;
+            height: 80vh;
         }
     </style>
 
@@ -16,15 +16,16 @@
                 <button id="banButton">SEARCH (BAN&WARN) USER</button>
             </a>
             <a href="{% url 'viewSuggestions' %}">
-                <button id="seeSuggestionsButton" onclick="window.location.href = 'GameSuggestions.html';">GAME
-                    SUGGESTIONS
-                </button>
+                <button id="viewSuggestionsButton">GAME SUGGESTIONS</button>
             </a>
             <a href="{% url 'addGame' %}">
                 <button id="addGameButton">ADD GAME</button>
             </a>
             <a href="{% url 'deleteGame' %}">
-                <button id="addGameButton">DELETE GAME</button>
+                <button id="deleteGameButton">DELETE GAME</button>
+            </a>
+            <a href="{% url 'viewScoreSubmissions' %}">
+                <button id="viewSubmissionsButton">SCORE SUBMISSIONS</button>
             </a>
         </div>
     </div>

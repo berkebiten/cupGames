@@ -4,10 +4,12 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge, Favorite, FavCategory, \
-    OwnedBadges
+    OwnedBadges, ScoreSubmission
 from django.utils import timezone
 from .forms import RegisterForm
 from datetime import date
+from .tasks import playLimitUpdate
+import datetime
 
 
 # Create your views here.
@@ -18,7 +20,7 @@ def index(request):
     games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
     if 'success' in request.session:
-        print("xd")
+        print("login successfull")
     else:
         request.session['success'] = False
     return render(request, 'cupApp/index.html',
@@ -33,12 +35,19 @@ def login(request):
         error = ""
         if accounts:
             account = accounts.get(username=username, password=password)
+            current_date = datetime.datetime.now().date().isoformat()
+            last_visit_date = account.last_visit_date.date().isoformat()
             if account.type == "AD":
                 username = request.POST['username']
                 request.session['username'] = username
                 request.session['success'] = True
-                request.session['playLimit'] = account.playLimit
                 request.session['type'] = "admin"
+                request.session['playLimit'] = account.playLimit
+                if last_visit_date < current_date:
+                    account.playLimit = 100
+                    request.session['playLimit'] = account.playLimit
+                account.last_visit_date = timezone.now()
+                account.save()
                 return redirect("adminpanel")
             else:
                 username = request.POST['username']
@@ -46,6 +55,15 @@ def login(request):
                 request.session['success'] = True
                 request.session['playLimit'] = account.playLimit
                 request.session['type'] = "user"
+                if last_visit_date < current_date:
+                    if account.type == "PU":
+                        account.playLimit = 10
+                        request.session['playLimit'] = account.playLimit
+                    elif account.type == "FU":
+                        account.playLimit = 2
+                        request.session['playLimit'] = account.playLimit
+                account.last_visit_date = timezone.now()
+                account.save()
                 return redirect("index")
         else:
             error = "wrong"
@@ -181,12 +199,64 @@ def leaderboards(request):
 
 
 def viewSuggestions(request):
-    newSuggestions = Suggestion.objects.filter(is_checked=False, is_starred=False).order_by('-submit_time')
+    newSuggestions = Suggestion.objects.filter(is_checked=False, is_starred=False).order_by('submit_time')
     checkedSuggestions = Suggestion.objects.filter(is_checked=True, is_starred=False).order_by('-last_modified')
     starredSuggestions = Suggestion.objects.filter(is_checked=True, is_starred=True).order_by('-last_modified')
     return render(request, 'cupApp/viewSuggestions.html',
                   {'newSuggestions': newSuggestions, 'checkedSuggestions': checkedSuggestions,
                    'starredSuggestions': starredSuggestions})
+
+
+def viewScoreSubmissions(request):
+    submissions = ScoreSubmission.objects.all()
+    return render(request, 'cupApp/viewScoreSubmissions.html',
+                  {'submissions': submissions})
+
+
+def scoreSubmission(request, pk):
+    submission = get_object_or_404(ScoreSubmission, pk=pk)
+    if request.method == 'POST':
+        score = submission.score
+        user = submission.user
+        game = submission.game
+        score_date = submission.score_date
+        submission.delete()
+        Score.objects.create(username=user, game_name=game, score=score, score_date=score_date)
+        statistic = Statistic.objects.filter(username=user, game_name=game)
+        statistic = statistic.first()
+        scores = Score.objects.all().order_by('-score')
+        if statistic:
+            for_count = 1
+            for scorex in scores:
+                if scorex.username == user and scorex.game_name == game:
+                    break
+                else:
+                    for_count = for_count + 1
+            tot_score = (statistic.average_score * statistic.play_count) + score
+            play_count = statistic.play_count + 1
+            avg_score = tot_score / play_count
+            Statistic.objects.filter(username=user, game_name=game).update(last_score=score, play_count=play_count,
+                                                                           rank=for_count, average_score=avg_score)
+        else:
+            for_count = 1
+            for score in scores:
+                if score.username == user and score.game_name == game:
+                    break
+                else:
+                    for_count = for_count + 1
+            Statistic.objects.create(username=user, game_name=game, last_score=score, play_count=1, average_score=score,
+                                     rank=for_count)
+        allStats = Statistic.objects.all()
+        allScores = Score.objects.filter(game_name=game).order_by('score')
+        for_count2 = allScores.count()
+        for eachscore in allScores:
+            userX = eachscore.username
+            gameX = eachscore.game_name
+            Statistic.objects.filter(username=userX, game_name=gameX).update(rank=for_count2)
+            for_count2 = for_count2 - 1
+
+        return redirect('viewScoreSubmissions')
+    return render(request, 'cupApp/scoreSubmission.html', {'submission': submission})
 
 
 def suggestion(request, pk):
@@ -224,6 +294,8 @@ def gamepage(request, pk):
     game = get_object_or_404(Game, pk=pk)
     categorys = Category.objects.filter(category_name__contains="").order_by('category_name')
     scores = Score.objects.filter(score__gte=0).order_by('-score')
+    playdisplay = 'block'
+    gamedisplay = 'none'
     if request.session['success']:
         favorites = Favorite.objects.filter(game_name=game.game_name, username=request.session['username'])
         if favorites:
@@ -232,17 +304,46 @@ def gamepage(request, pk):
             favorites = "no"
     else:
         favorites = ""
+
     comments = Comment.objects.all()
+
     if request.method == 'POST':
-        account = Account.objects.get(username=request.session['username'])
-        comment_box = request.POST.get('comment_box')
-        if comment_box:
-            comment = Comment.objects.create(text=comment_box, game_name=game,
-                                             username=account)
+        if 'Comment' in request.POST:
+            account = Account.objects.get(username=request.session['username'])
+            comment_box = request.POST.get('comment_box')
+            if comment_box:
+                comment = Comment.objects.create(text=comment_box, game_name=game,
+                                                 username=account)
+                return redirect('gamepage', pk=game.game_name)
+            else:
+                return redirect('gamepage', pk=game.game_name)
+        elif 'Play' in request.POST:
+            gamedisplay = 'block'
+            playdisplay = 'none'
+            game = get_object_or_404(Game, pk=pk)
+            account = get_object_or_404(Account, pk=request.session['username'])
+            account.playLimit -= 1
+            request.session['playLimit'] -= 1
+            account.save()
+            return render(request, 'cupApp/gamepage.html', {'game': game, 'categorys': categorys, 'comments': comments,
+                                                            'scores': scores, 'favorites': favorites,
+                                                            'gamedisplay': gamedisplay, 'playdisplay': playdisplay})
+        elif 'submit_score' in request.POST:
+            game = get_object_or_404(Game, pk=pk)
+            user = get_object_or_404(Account, pk=request.session['username'])
+            score = request.POST.get('score_input')
+            proof = request.POST.get('proof_link')
+            ScoreSubmission.objects.create(user=user, game=game, score=score, proof=proof)
+            return render(request, 'cupApp/gamepage.html', {'game': game, 'categorys': categorys, 'comments': comments,
+                                                            'scores': scores, 'favorites': favorites,
+                                                            'gamedisplay': gamedisplay, 'playdisplay': playdisplay})
+        else:
             return redirect('gamepage', pk=game.game_name)
+
     else:
         return render(request, 'cupApp/gamepage.html', {'game': game, 'categorys': categorys, 'comments': comments,
-                                                        'scores': scores, 'favorites': favorites})
+                                                        'scores': scores, 'favorites': favorites,
+                                                        'gamedisplay': gamedisplay, 'playdisplay': playdisplay})
 
 
 def suggestGame(request):
@@ -250,7 +351,7 @@ def suggestGame(request):
 
         game_name_input = request.POST.get('game_name_input')
         description_box = request.POST.get('description_box')
-        error = "";
+        error = ""
         if game_name_input and description_box:
             if request.session['success']:
                 account = Account.objects.get(username=request.session['username'])
@@ -390,3 +491,28 @@ def deleteGame(request):
 def searchusers(request):
     accounts = Account.objects.all()
     return render(request, 'cupApp/searchusers.html', {'accounts': accounts})
+
+
+def updatePlayTime(request):
+    account = get_object_or_404(Account, pk=request.session['username'])
+    midnight = datetime.time(0).isoformat()
+    current_time = datetime.datetime.now().time().isoformat()
+    current_date = datetime.datetime.now().date().isoformat()
+    last_visit_date = account.last_visit_date.date().isoformat()
+    if last_visit_date < current_date:
+        if account.type == "FU":
+            account.playLimit = 2
+            request.session['playLimit'] = account.playLimit
+            account.last_visit_date = timezone.now()
+            account.save()
+        elif account.type == "PU":
+            account.playLimit = 10
+            request.session['playLimit'] = account.playLimit
+            account.last_visit_date = timezone.now()
+            account.save()
+        else:
+            account.playLimit = 100
+            request.session['playLimit'] = account.playLimit
+            account.last_visit_date = timezone.now()
+            account.save()
+    return redirect(request.META['HTTP_REFERER'])

@@ -8,15 +8,22 @@
     <div class="searchAGame">
         <h1>SEARCH FOR A GAME</h1>
         <input type="text" id="searchInput" onkeyup="searchTableFunction()" placeholder="Search for games..">
+        <style>
+            .scrolling-wrapper2{
+                max-height:60%;
+            }
+        </style>
         <div class="scrolling-wrapper2">
             <table id="searchTable">
                 <tr class="header">
+                    <th style="width:20%;">Thumbnail</th>
                     <th style="width:40%;">Name</th>
-                    <th style="width:60%;">Categories</th>
+                    <th style="width:40%;">Categories</th>
                 </tr>
 
                 {% for game in games %}
                     <tr>
+                        <td><img style="width:50px;height:50px;" src="{{ game.thumbnail }}"></td>
                         <td><a href="{% url 'gamepage' pk=game.game_name %}">{{ game.game_name.capitalize }}</a></td>
                         <td>
                             {% if game.category1 %}

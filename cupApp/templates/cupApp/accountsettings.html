@@ -20,7 +20,7 @@
                     <input type="password" id="password_2" placeholder="Repeat password" name="password_2" required>
                 </div>
                 <div class="loginbutton">
-                    <button type="submit">Submit</button>
+                    <button type="submit">SAVE</button>
                 </div><br>
             </form>
         </div>
@@ -29,10 +29,10 @@
             <form method="post" action="{% url 'changeemail' pk=account.username %}">
                 {% csrf_token %}
                 <div class="inputField">
-                    <input type="email" id="email" placeholder="Enter your new email.." name="email" required>
+                    <input type="email" id="email" value="{{account.email}}" name="email" required>
                 </div>
                 <div class="loginbutton">
-                   <button type="submit">Submit</button>
+                   <button type="submit">SAVE</button>
                 </div>
             </form>
         </div>

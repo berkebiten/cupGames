@@ -23,14 +23,50 @@ button:focus {
 
 }
 
-.photo {
-    float: left;
+
+#commentTable {
+    border-collapse: collapse; /* Collapse borders */
+    width: 100%; /* Full-width */
+    border: 3px solid #E0AE43; /* Add a grey border */
+    font-size: 18px; /* Increase font-size */
+    font-weight: bold;
 }
 
-.comment {
-    margin-top: 3%;
-    margin-left: 10%;
+#commentTable th {
+
+    color: #2B2B2B;
 }
+
+#commentTable th, #commentTable td {
+    max-width:80%;
+    text-align: left;
+    padding: 12px;
+    word-wrap:break-word;
+    white-space: pre-wrap;
+}
+
+#commentTable tr {
+    border-bottom: 3px solid #E0AE43;
+}
+
+#commentTable a {
+    color: #cccccc;
+}
+#commentTable p {
+    max-width: 500px;
+}
+
+#commentTable a:hover, a:focus, a:active {
+    color: #E0AE43;
+    text-decoration: none;
+}
+
+#commentTable tr.header{
+    background-color: #E0AE43;
+}
+
+
+
 
 textarea {
     min-width: 100%;
@@ -167,10 +203,10 @@ body::-webkit-scrollbar-thumb {
     border: 5px solid #575454;
 }
 
-.gamewindow{
-    width:100%;
-    height:100%;
-    background:black;
+.gamewindow {
+    width: 100%;
+    height: 100%;
+    background: black;
 }
 
 .upper {
@@ -286,7 +322,7 @@ body::-webkit-scrollbar-thumb {
 .scrolling-wrapper {
     height: 150px;
     overflow-x: auto;
-    overlow-y: hidden;
+    overflow-y: hidden;
     white-space: nowrap;
 
 }
@@ -308,8 +344,8 @@ body::-webkit-scrollbar-thumb {
     display: none;
     padding: 6px 12px;
     border-top: none;
-    margin-left:3%;
-    width:75%;
+    margin-left: 3%;
+    width: 75%;
 }
 
 .about {
@@ -409,7 +445,7 @@ body::-webkit-scrollbar-thumb {
     border-collapse: collapse;
     border-spacing: 0;
     border: 3px solid #E0AE43;
-    height: 70%;
+    max-height: 70%;
     overflow-y: auto;
 
 }
@@ -470,29 +506,29 @@ body::-webkit-scrollbar-thumb {
 
 .paragraph {
     float: left;
-    width:75%;
-    height:100%;
+    width: 75%;
+    height: 100%;
 }
 
-.paragraph p{
-    width:90%;
-    font-weight:bold;
-    font-size:20px;
-    color:#222222;
+.paragraph p {
+    width: 90%;
+    font-weight: bold;
+    font-size: 20px;
+    color: #222222;
     word-wrap: break-word;
-    text-align:center;
+    text-align: center;
 }
 
 .suggest {
     width: 25%;
-    height:100%;
+    height: 100%;
     float: right;
 }
 
 .suggest button {
     margin-top: 10%;
-    width:70%;
-    height:50%;
+    width: 70%;
+    height: 50%;
     font-weight: bold;
     background: #E0AE43;
     cursor: pointer;
@@ -513,20 +549,20 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-
 .leaderboardtables {
     margin-left: 40%;
 }
 
 .suggestTables {
-
+    height:80%;
     width: 100%;
     margin-top: 5%;
-    margin-left: 30%;
+    text-align:center;
 }
 
 .suggestTables p1 {
-    margin-left: 7%;
+    margin:auto;
+    width:50%;
     font-size: 30px;
     font-weight: bold;
 }
@@ -537,14 +573,15 @@ body::-webkit-scrollbar-thumb {
 }
 
 .tab {
-    margin-left:3%;
+    margin-left: 3%;
     width: 75%;
     overflow: hidden;
     background-color: #575454;
 
 }
+
 .tab button {
-    margin-left:3%;
+    margin-left: 3%;
     font-weight: bold;
     background: #575454;
     cursor: pointer;
@@ -660,11 +697,12 @@ body::-webkit-scrollbar-thumb {
     background-color: #575454;
 }
 
-.accountsettings select{
+.accountsettings select {
     background-color: #575454;
 }
-.gender p{
-    float:left;
+
+.gender p {
+    float: left;
 }
 
 .accountsettings h1 {
@@ -835,7 +873,6 @@ body::-webkit-scrollbar-thumb {
 .buttons p1 {
     font-size: 30px;
     font-weight: bold;
-
 }
 
 .buttons button {
@@ -843,7 +880,7 @@ body::-webkit-scrollbar-thumb {
     height: 15%;
     margin-top: 5%;
     font-weight: bold;
-    background: #C7B75B;
+    background: #E0AE43;
     cursor: pointer;
     color: #2B2B2B;
     font-size: 15px;
@@ -884,13 +921,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 #searchTable th, #searchTable td {
-    text-align: center; /* Left-align text */
-    padding: 12px; /* Add padding */
+    text-align: center;
+    padding: 12px;
 
 }
 
 #searchTable tr {
-    /* Add a bottom border to all table rows */
     border-bottom: 3px solid #C64539;
 }
 
@@ -904,16 +940,14 @@ body::-webkit-scrollbar-thumb {
 }
 
 #searchTable tr.header, #searchTable tr:hover {
-    /* Add a grey background color to the table header and on hover */
     background-color: #C64539;
 }
 
 .scrolling-wrapper2 {
-    max-height: 500px;
+    max-height: 300px;
     overflow-x: hidden;
-    overlow-y: auto;
+    overflow-y: auto;
     white-space: nowrap;
-
 }
 
 .scrolling-wrapper2::-webkit-scrollbar {
@@ -953,18 +987,20 @@ body::-webkit-scrollbar-thumb {
     text-decoration: none;
     border: none;
 }
-#ban{
-    background: #C64539;
-}
-#warn{
+
+#ban {
     background: #C64539;
 }
 
-#ban:hover{
+#warn {
+    background: #C64539;
+}
+
+#ban:hover {
     background: #F76B5E;
 }
 
-#warn:hover{
+#warn:hover {
     background: #F76B5E;
 }
 
@@ -997,7 +1033,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .profileCard {
-    margin-top:1%;
+    margin-top: 1%;
     background-color: #2B2B2B;
     float: left;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -1020,7 +1056,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .about2 {
-    background-color:#575454;
+    background-color: #575454;
     float: left;
     height: 100%;
     width: 40%;
@@ -1029,8 +1065,8 @@ body::-webkit-scrollbar-thumb {
 
 }
 
-.about2 h2{
-    text-align:center;
+.about2 h2 {
+    text-align: center;
 }
 
 .statT {
@@ -1050,17 +1086,18 @@ body::-webkit-scrollbar-thumb {
     float: left;
     width: 35%;
     height: 100%;
-    background-color: red;
-    text-align:center;
-}
-.profilestats p{
-    color:black;
-    font-weight:bold;
-    font-size:15px;
+    background-color: #575454;
+    text-align: center;
 }
 
-.profilestats h2{
-    text-align:center;
+.profilestats p {
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.profilestats h2 {
+    text-align: center;
 }
 
 .gameselect {
@@ -1068,7 +1105,6 @@ body::-webkit-scrollbar-thumb {
     margin-right: auto;
     width: 95%;
     height: 10%;
-    background-color: blue;
 }
 
 .gamestats {
@@ -1076,13 +1112,55 @@ body::-webkit-scrollbar-thumb {
     margin-right: auto;
     width: 95%;
     height: 70%;
-    background-color: green;
+}
+
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+select {
+  background-color: #2B2B2B;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  font-size: 15px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  -webkit-appearance: button;
+  outline: none;
+}
+
+.gameselect::before {
+  content: "\f13a";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  font-size: 28px;
+  line-height: 45px;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+.gameselect:hover::before {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+select option {
+  padding: 18px;
 }
 
 .favs {
 
     float: left;
-    margin-top:1%;
+    margin-top: 1%;
     margin-left: 2.5%;
     width: 45%;
     height: 90%;
@@ -1107,10 +1185,12 @@ body::-webkit-scrollbar-thumb {
     padding-right: 1%;
     text-align: center;
 }
-.badges p{
-    font-weight:bold;
-    font-size:12px;
+
+.badges p {
+    font-weight: bold;
+    font-size: 12px;
 }
+
 .ban {
     height: 50%;
     margin: 5% auto 5%;
@@ -1187,3 +1267,84 @@ body::-webkit-scrollbar-thumb {
     width: 30%;
 }
 
+.playCheck {
+    height: 100%;
+    width: 100%;
+}
+
+.formclass {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formclass button {
+    width: 170px;
+    height: 60px;
+    background-color: #E0AE43;
+    color: #222222;
+    border: 0;
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.scrolling-wrapper3 {
+    display:inline-block;
+    width:20%;
+    height: 70%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: nowrap;
+}
+
+.scrolling-wrapper3::-webkit-scrollbar {
+    height: 11px;
+}
+
+.scrolling-wrapper3::-webkit-scrollbar-track {
+    background: #222222;
+}
+
+.scrolling-wrapper3::-webkit-scrollbar-thumb {
+    background-color: #E0AE43;
+    border: 2px solid #222222;
+}
+
+#suggestTable {
+    border-collapse: collapse; /* Collapse borders */
+    width: 100%; /* Full-width */
+    border: 3px solid #E0AE43; /* Add a grey border */
+    font-size: 18px; /* Increase font-size */
+    font-weight: bold;
+}
+
+#suggestTable th {
+    color: #2B2B2B;
+}
+
+#suggestTable th, #suggestTable td {
+    text-align: center;
+    padding: 12px;
+
+}
+
+#suggestTable tr {
+    border-bottom: 3px solid #E0AE43;
+}
+
+#suggestTable a {
+    color: #cccccc;
+}
+
+#suggestTable a:hover, a:focus, a:active {
+    color: #2B2B2B;
+    text-decoration: none;
+}
+
+#suggestTable tr.header, #suggestTable tr:hover, #suggestTable tr:hover a {
+    background-color: #E0AE43;
+    color: #2B2B2B;
+}

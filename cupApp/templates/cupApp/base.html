@@ -15,7 +15,16 @@
     <meta charset="UTF-8">
 </head>
 <body>
+<style>
+    .fa-refresh{
+        margin-left: 5px;
+        margin-right: 10px;
+        color: #E0AE43;
+        font-size: 25px;
+    }
+</style>
 <div class="container">
+
     <div class="ingredients">
         <div class="header" id="myHeader">
             <div class="logo">
@@ -77,7 +86,10 @@
         {% if request.session.username %}
             <div class="header2">
                 <p1>Welcome, {{ request.session.username }}</p1>
-                <p2>You can play {{ request.session.playLimit }} more games till next day</p2>
+                <div style="float:right;">
+                    <p2>You can play {{ request.session.playLimit }} more games till next day</p2>
+                    <a href="{% url 'updatePlayTime' %}"><i title="Refreshes your playLimit if it is a new day" class="fa fa-refresh" aria-hidden="true"></i></a>
+                </div>
             </div>
         {% else %}
             <div class="header2">

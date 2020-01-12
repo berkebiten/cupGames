@@ -3,7 +3,7 @@
 
     <style>
         .ingredients {
-            height: 110vh;
+            height: 150vh;
         }
     </style>
 
@@ -12,28 +12,49 @@
         <div class="suggestionView">
             <div class="gamewindow">
                 {% if request.session.success %}
-                    {% if game.type == 'F' %}
-                        <!--<object type="application/x-shockwave-flash" id=""
-                        data="  {{ game.link }} "
-                        width="100%" height="100%">
-                    <param name="menu" value="false">
-                    <param name="scale" value="noScale">
-                    <param name="allowFullscreen" value="true">
-                    <param name="allowScriptAccess" value="always">
-                    <param name="bgcolor" value="">
-                    <param name="wmode" value="direct">
-                </object>!-->
-                        <embed src="{{ game.link }}" quality="high"
-                               type="application/x-shockwave-flash" wmode="transparent" width="100%" height="100%"
-                               pluginspage="http://www.macromedia.com/go/getflashplayer" allowScriptAccess="always"/>
+                    {% if request.session.playLimit > 0 %}
+                        <div class="playCheck" id="playCh" style="display:{{ playdisplay }};">
+                            <div class="formclass">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" name="Play">PLAY <i class="fa fa-play" aria-hidden="true"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="buttons">
+                            <p1>YOUR PLAY LIMIT IS: {{ request.session.playLimit }}</p1>
+                            <br>
+                            <p1>YOU WON'T BE ABLE TO PLAY ANY GAMES UNTIL MIDNIGHT (00:00 UTC)</p1>
+                        </div>
                     {% endif %}
-                    {% if game.type == 'H' %}
-                        <iframe src="{{ game.link }}" frameborder="0" scrolling="no" width="100%" height="100%"
-                                allowfullscreen></iframe>
-                    {% endif %}
-                    {% if game.type == 'J' %}
-                        <script src="{{ game.link }}"></script>
-                    {% endif %}
+                    <div class="gameXD" id="gameAction" style="display:{{ gamedisplay }};width:100%;height:100%;">
+                        {% if game.type == 'F' %}
+                            <!--<object
+                                type="application/x-shockwave-flash" id=""
+                                data=" {///// game.link }} "
+                                width="100%" height="100%">
+                                <param name="menu" value="false">
+                                <param name="scale" value="noScale">
+                                <param name="allowFullscreen" value="true">
+                                <param name="allowScriptAccess" value="always">
+                                <param name="bgcolor" value="">
+                                <param name="wmode" value="direct">
+                            </object>!-->
+                            <embed src="{{ game.link }}" quality="high"
+                                   type="application/x-shockwave-flash" wmode="transparent" width="100%" height="100%"
+                                   pluginspage="http://www.macromedia.com/go/getflashplayer"
+                                   allowScriptAccess="always"/>
+                        {% endif %}
+                        {% if game.type == 'H' %}
+                            <iframe src="{{ game.link }}" frameborder="0" scrolling="no" width="100%" height="100%"
+                                    allowfullscreen></iframe>
+                        {% endif %}
+                        {% if game.type == 'J' %}
+                            <script src="{{ game.link }}"></script>
+                        {% endif %}
+                    </div>
 
                 {% else %}
 
@@ -59,6 +80,7 @@
         <button class="tablinks" onclick="tab(event, 'Monthly')">Comments</button>
         <button class="tablinks" onclick="tab(event, 'General')">Leaderboard</button>
         {% if request.session.username %}
+            <button class="tablinks" onclick="tab(event, 'Score')">Submit Score</button>
             {% for favorite in favorites %}
                 {% if favorite.username.username == request.session.username %}
                     <a href="{% url 'removeFavorite' pk=game.game_name %}">
@@ -88,29 +110,44 @@
         </div>
     </div>
     <div id="Monthly" class="tabcontent">
-        <div class="commentSection">
-            {% for comment in comments %}
-                {% if comment.game_name.game_name == game.game_name %}
-                    <div class="comment-card">
-                        <div class="photo">
-                            <a href="{% url 'profile' pk=comment.username.username %}"><img
-                                    style="width: 100px; height: 100px;" src="{{ comment.username.profile_pic }}"></a>
-                        </div>
-                        <div class="comment">
-                            <p>{{ comment.username.username }}</p>
-                            <p>{{ comment.text }}</p>
-                        </div>
-                    </div>
-                {% endif %}
-            {% endfor %}
+        <div class="scrolling-wrapper2">
+            <style>
+                .scrolling-wrapper2 {
+                    overflow-x: auto;
+                    overflow-y: auto;
+                }
+
+                .scrolling-wrapper2::-webkit-scrollbar-thumb {
+                    background-color: #E0AE43;
+                }
+            </style>
+            <table id="commentTable">
+                <tr class="header">
+                    <th style="width:10%;"></th>
+                    <th style="width:15%"></th>
+                    <th style="width:75%;"></th>
+                </tr>
+                {% for comment in comments %}
+                    {% if comment.game_name.game_name == game.game_name %}
+                        <tr>
+                            <td><a href="{% url 'profile' pk=comment.username.username %}"><img
+                                    style="width: 70px; height: 70px;"
+                                    src="{{ comment.username.profile_pic }}"></a></td>
+                            <td><a href="{% url 'profile' pk=comment.username.username %}">
+                                <p>{{ comment.username.username }}:</p></a></td>
+                            <td><p>{{ comment.text }}</p></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
         </div>
         <br>
         {% if request.session.username %}
             <div class="commentArea">
                 <form method="post" action="{% url 'gamepage' pk=game.game_name %}">
                     {% csrf_token %}
-                    <textarea name="comment_box" placeholder="Write your comment here."></textarea>
-                    <button type="submit">Comment</button>
+                    <textarea name="comment_box" placeholder="Write your comment here." required></textarea>
+                    <button type="submit" name="Comment">Comment</button>
                 </form>
             </div>
         {% endif %}
@@ -134,6 +171,32 @@
                     {% endif %}
                 {% endfor %}
             </table>
+        </div>
+    </div>
+    <div id="Score" class="tabcontent">
+        <div class='register'>
+            <h1>SUBMIT YOUR SCORE</h1>
+            <form method="post" action="{% url 'gamepage' pk=game.game_name %}">
+                {% csrf_token %}
+                <input type="number" name="score_input" placeholder="Your Score" required/>
+                <input type="text" name="proof_link" placeholder="Proof Link"
+                       title="Your proof link is a image source link which provides a proof of your score. It must be a full screenshot of your screen when the score is visible. You can upload it any image upload website (ex: prnt.sc)"
+                       required/>
+                <div class="help_text">
+                    <style>
+                        .fa-info-circle a{
+                          color:#E0AE43;
+                        }
+                        .fa-info-circle a:hover{
+                            color:darksalmon;
+                        }
+                    </style>
+                    <i class="fa fa-info-circle" style="color:#cccccc;" aria-hidden="true">  Proof link is an image source link which provides a proof of your score. It must be a full screenshot of your screen when the score is visible. You can upload it to any image upload website (ex: <a href="prnt.sc">prnt.sc</a>).</i>
+                    <i class="fa fa-info-circle" style="color:#cccccc;" aria-hidden="true">  Your score will not be processed until it is confirmed by an admin.</i>
+                </div>
+                <br>
+                <button type="submit" name="submit_score">Send</button>
+            </form>
         </div>
     </div>
 

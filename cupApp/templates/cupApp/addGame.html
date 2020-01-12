@@ -3,10 +3,12 @@
 {% block content %}
     <style>
         .ingredients {
-            height: 130vh;
+            height: 180vh;
         }
     </style>
     <div class="accountsettings">
+        <a href="{% url 'adminpanel' %}" style="font-size:35px; color:#E0AE43;"><i class="fa fa-arrow-circle-left"
+                                                                                   aria-hidden="true"></i></a>
         <h1>ADD A GAME</h1>
         <img src={% static 'img/CGLogoIcon.png' %}>
         <form method="post" action="{% url 'addGame' %}">

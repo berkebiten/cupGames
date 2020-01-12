@@ -54,30 +54,32 @@
             <div class="profilestats">
                 <h2>Statistics</h2>
                 {% if account.type == 'PU' or account.type == 'AD' %}
-                        <div class="gameselect">
+                    <div class="gameselect">
                         <select class="tablinks" onchange="tab1(event, value)">
-                        <option value=""> Choose a game..</option>
-                                {% for games in game %}
-                                    <option value="{{ games.game_name }}">{{ games.game_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="gamestats">
-                            {% for games in game %}
-                                <div id="{{ games.game_name }}" class="tabcontent">
-                                    {% for stats in statistics %}
-                                        {% if games.game_name == stats.game_name.game_name %}
-                                            <h3>Play Count: {{ stats.play_count }}</h3>
-                                            <h3>Last Score:{{ stats.last_score }}</h3>
-                                            <h3>Average Score: {{ stats.average_score }}</h3>
-                                            <h3>Rank: {{ stats.rank }}</h3>
-                                        {% else %}
-                                            <p>There is no stats for the selected game.</p>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
+                            <option value=""> Choose a game..</option>
+                            {% for statistic in statistics %}
+                                {% if statistic.username.username == account.username %}
+                                    <option value="{{ statistic.game_name.game_name }}">{{ statistic.game_name.game_name }}</option>
+                                {% endif %}
                             {% endfor %}
-                        </div>
+                        </select>
+                    </div>
+                    <div class="gamestats">
+                        {% for games in game %}
+                            <div id="{{ games.game_name }}" class="tabcontent">
+                                {% for stats in statistics %}
+                                    {% if games.game_name == stats.game_name.game_name %}
+                                        <h3>Play Count: {{ stats.play_count }}</h3>
+                                        <h3>Last Score:{{ stats.last_score }}</h3>
+                                        <h3>Average Score: {{ stats.average_score }}</h3>
+                                        <h3>Rank: {{ stats.rank }}</h3>
+                                    {% else %}
+                                        <p>There is no stats for the selected game.</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
                 {% else %}
                     <div class="locked">
                         {% if account.username == request.session.username %}

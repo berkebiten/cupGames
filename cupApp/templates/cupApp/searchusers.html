@@ -5,9 +5,15 @@
         .ingredients {
             height: 130vh;
         }
+
+        .scrolling-wrapper2 {
+            max-height: 70%;
+        }
     </style>
     <div style="width:80%;" class="accountsettings">
-        <h1 style="color:#C64539">SEARCH USERS</h1>
+        <a href="{% url 'adminpanel' %}" style="font-size:35px; color:#cccccc;"><i class="fa fa-arrow-circle-left"
+                                                                                   aria-hidden="true"></i></a>
+        <h1 style="color:#cccccc">SEARCH USERS</h1>
         <input style="background:#575454" type="text" id="searchInput" onkeyup="searchTableFunction()"
                placeholder="Search for users..">
         <div class="scrolling-wrapper2">
@@ -30,9 +36,14 @@
                         <td>{{ account.is_banned }}</td>
                         <td>{{ account.warn_value }}</td>
                         <td>
-                            <a href="{% url 'ban' pk=account.username %}">
-                                <button style="background:#2B2B2B;color:#575454;width:100%;" type="submit">BAN</button>
-                            </a>
+                            {% if account.is_banned %}
+
+                            {% else %}
+                                <a href="{% url 'ban' pk=account.username %}">
+                                    <button style="background:#2B2B2B;color:#575454;width:100%;" type="submit">BAN
+                                    </button>
+                                </a>
+                            {% endif %}
                         </td>
                         <td>
                             <a href="{% url 'warn' pk=account.username %}">

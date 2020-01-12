@@ -14,7 +14,7 @@ class Account(models.Model):
     about_text = models.TextField(blank=True, null=True)
     registration_date = models.DateTimeField(default=timezone.now())
     isPremium = models.BooleanField(default=False)
-    playLimit = models.IntegerField(default=15)
+    playLimit = models.IntegerField(default=2)
     last_visit_date = models.DateTimeField(default=timezone.now())
     warn_value = models.IntegerField(default=0)
     is_banned = models.BooleanField(default=False)
@@ -93,7 +93,6 @@ class OwnedBadges(models.Model):
     badge_name = models.ForeignKey(Badge, related_name='badge_badge_name', on_delete=models.CASCADE)
 
 
-
 class Suggestion(models.Model):
     username = models.ForeignKey(Account, related_name='suggestion_owner', on_delete=models.DO_NOTHING, null=True,
                                  blank=True)
@@ -125,3 +124,15 @@ class FavCategory(models.Model):
 
     def __int__(self):
         return self.favcategoryId
+
+
+class ScoreSubmission(models.Model):
+    user = models.ForeignKey(Account, related_name='submission_owner', on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, related_name='score_submission_game', on_delete=models.CASCADE)
+    score = models.IntegerField()
+    proof = models.TextField(default="No Link")
+    score_date = models.DateTimeField(default=timezone.now())
+    submissionId = models.AutoField(primary_key=True)
+
+    def __int__(self):
+        return self.submissionId

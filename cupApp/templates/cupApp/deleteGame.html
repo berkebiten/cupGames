@@ -7,7 +7,9 @@
         }
     </style>
     <div class="accountsettings">
-        <h1 style="color:#C64539">DELETE GAME</h1>
+        <a href="{% url 'adminpanel' %}" style="font-size:35px; color:#cccccc;"><i class="fa fa-arrow-circle-left"
+                                                                                   aria-hidden="true"></i></a>
+        <h1 style="color:#cccccc">DELETE GAME</h1>
         <input style="background:#575454" type="text" id="searchInput" onkeyup="searchTableFunction()"
                placeholder="Search for games..">
         <div class="scrolling-wrapper2">
@@ -22,8 +24,11 @@
                         <form method="post">
                             {% csrf_token %}
                             <input type="text" value="{{ game.game_name }}" style="display:none;" name="game_name">
-                            <td><a href="{% url 'gamepage' pk=game.game_name %}">{{ game.game_name.capitalize }}</a></td>
-                            <td><button style="background:#2B2B2B;color:#575454;width:50%;" type="submit">X</button></td>
+                            <td><a href="{% url 'gamepage' pk=game.game_name %}">{{ game.game_name.capitalize }}</a>
+                            </td>
+                            <td>
+                                <button style="background:#2B2B2B;color:#575454;width:50%;" type="submit">X</button>
+                            </td>
                         </form>
                     </tr>
                 {% endfor %}

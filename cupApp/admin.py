@@ -10,7 +10,7 @@ from .models import Suggestion
 from .models import Favorite
 from .models import FavCategory
 from .models import OwnedBadges
-
+from .models import ScoreSubmission
 
 # Register your models here.
 admin.site.register(Account)
@@ -24,3 +24,4 @@ admin.site.register(Suggestion)
 admin.site.register(Favorite)
 admin.site.register(FavCategory)
 admin.site.register(OwnedBadges)
+admin.site.register(ScoreSubmission)

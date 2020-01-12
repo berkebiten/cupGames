@@ -9,12 +9,14 @@
     </style>
 
     <div class="suggestTables">
-    <a href="{% url 'adminpanel' %}"><button><</button></a>
+        <a href="{% url 'adminpanel' %}" style="font-size:35px; color:#E0AE43;"><i class="fa fa-arrow-circle-left"
+                                                                                   aria-hidden="true"></i></a>
         <p1>SUGGESTIONS</p1>
-        <div class="suggestionTable">
-            <table>
-                <tr>
-                    <th>NEW</th>
+        <br>
+        <div class="scrolling-wrapper3">
+            <table id="suggestTable">
+                <tr class="header">
+                    <th>UNREAD</th>
                 </tr>
                 {% for suggestion in newSuggestions %}
                     <tr>
@@ -27,9 +29,9 @@
         </div>
 
 
-        <div class="suggestionTable">
-            <table>
-                <tr>
+        <div class="scrolling-wrapper3">
+            <table id="suggestTable">
+                <tr class="header">
                     <th>CHECKED</th>
                 </tr>
                 {% for suggestion in checkedSuggestions %}
@@ -43,17 +45,15 @@
         </div>
 
 
-        <div class="suggestionTable">
-            <table>
-                <tr>
+        <div class="scrolling-wrapper3">
+            <table id="suggestTable">
+                <tr class="header">
                     <th>STARRED</th>
                 </tr>
                 {% for suggestion in starredSuggestions %}
                     <tr>
                         <td>
-
                             <a href="{% url 'suggestion' pk=suggestion.suggestion_id %}">Suggestion {{ suggestion.suggestion_id }}</a>
-
                         </td>
                     </tr>
                 {% endfor %}
