@@ -35,36 +35,40 @@ def login(request):
         error = ""
         if accounts:
             account = accounts.get(username=username, password=password)
-            current_date = datetime.datetime.now().date().isoformat()
-            last_visit_date = account.last_visit_date.date().isoformat()
-            if account.type == "AD":
-                username = request.POST['username']
-                request.session['username'] = username
-                request.session['success'] = True
-                request.session['type'] = "admin"
-                request.session['playLimit'] = account.playLimit
-                if last_visit_date < current_date:
-                    account.playLimit = 100
+            if not account.is_banned:
+                current_date = datetime.datetime.now().date().isoformat()
+                last_visit_date = account.last_visit_date.date().isoformat()
+                if account.type == "AD":
+                    username = request.POST['username']
+                    request.session['username'] = username
+                    request.session['success'] = True
+                    request.session['type'] = "admin"
                     request.session['playLimit'] = account.playLimit
-                account.last_visit_date = timezone.now()
-                account.save()
-                return redirect("adminpanel")
+                    if last_visit_date < current_date:
+                        account.playLimit = 100
+                        request.session['playLimit'] = account.playLimit
+                    account.last_visit_date = timezone.now()
+                    account.save()
+                    return redirect("adminpanel")
+                else:
+                    username = request.POST['username']
+                    request.session['username'] = username
+                    request.session['success'] = True
+                    request.session['playLimit'] = account.playLimit
+                    request.session['type'] = "user"
+                    if last_visit_date < current_date:
+                        if account.type == "PU":
+                            account.playLimit = 10
+                            request.session['playLimit'] = account.playLimit
+                        elif account.type == "FU":
+                            account.playLimit = 2
+                            request.session['playLimit'] = account.playLimit
+                    account.last_visit_date = timezone.now()
+                    account.save()
+                    return redirect("index")
             else:
-                username = request.POST['username']
-                request.session['username'] = username
-                request.session['success'] = True
-                request.session['playLimit'] = account.playLimit
-                request.session['type'] = "user"
-                if last_visit_date < current_date:
-                    if account.type == "PU":
-                        account.playLimit = 10
-                        request.session['playLimit'] = account.playLimit
-                    elif account.type == "FU":
-                        account.playLimit = 2
-                        request.session['playLimit'] = account.playLimit
-                account.last_visit_date = timezone.now()
-                account.save()
-                return redirect("index")
+                error = "You are banned." + "\n Reason: " + account.ban_reason
+                return render(request, 'cupApp/login.html', {'error': error})
         else:
             error = "wrong"
             return render(request, 'cupApp/login.html', {'error': error})
@@ -431,7 +435,8 @@ def adminpanel(request):
 def ban(request, pk):
     account = get_object_or_404(Account, pk=pk)
     if request.method == "POST":
-        Account.objects.filter(username=account.username).update(is_banned=True)
+        ban_reason = request.POST.get("reason_box")
+        Account.objects.filter(username=account.username).update(is_banned=True, ban_reason=ban_reason)
         return redirect('adminpanel')
     return render(request, 'cupApp/ban.html', {'account': account})
 

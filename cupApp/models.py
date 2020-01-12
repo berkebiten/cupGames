@@ -18,6 +18,7 @@ class Account(models.Model):
     last_visit_date = models.DateTimeField(default=timezone.now())
     warn_value = models.IntegerField(default=0)
     is_banned = models.BooleanField(default=False)
+    ban_reason = models.TextField(blank=True, null=True)
     profile_pic = models.CharField(max_length=1500, null=True, blank=True)
 
     def __str__(self):
