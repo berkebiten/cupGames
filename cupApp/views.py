@@ -14,7 +14,7 @@ import datetime
 
 # Create your views here.
 def index(request):
-    games = Game.objects.filter(added_date__lte=timezone.now()).order_by('-added_date')
+    games = Game.objects.all().order_by('added_date')
     scores = Score.objects.filter(score__gte=0).order_by('-score')
     games2 = Game.objects.filter(play_count__gte=0).order_by('-play_count')
     games3 = Game.objects.filter(game_name__contains="").order_by('game_name')
@@ -226,6 +226,8 @@ def scoreSubmission(request, pk):
         score_date = submission.score_date
         submission.delete()
         Score.objects.create(username=user, game_name=game, score=score, score_date=score_date)
+        g_play_count = game.play_count
+        Game.objects.filter(game_name=game.game_name).update(play_count=g_play_count + 1)
         statistic = Statistic.objects.filter(username=user, game_name=game)
         statistic = statistic.first()
         scores = Score.objects.all().order_by('-score')
@@ -259,6 +261,35 @@ def scoreSubmission(request, pk):
             Statistic.objects.filter(username=userX, game_name=gameX).update(rank=for_count2)
             for_count2 = for_count2 - 1
 
+        related_stat = Statistic.objects.get(username=user, game_name=game)
+        badgeWillbeAssigned = False
+        if related_stat.play_count >= 100:
+            badge_name = game.game_name + " 100"
+            badge = Badge.objects.get(game_name=game, badge_name=badge_name)
+            doesExist = False
+            ownedX = OwnedBadges.objects.filter(username=user, badge_name=badge)
+            if ownedX:
+                doesExist = True
+
+            if not doesExist:
+                OwnedBadges.objects.create(username=user, badge_name=badge)
+
+        elif related_stat.play_count >= 10:
+            badge_name = game.game_name + " 10"
+            badge = Badge.objects.get(game_name=game, badge_name=badge_name)
+            doesExist = False
+            ownedX = OwnedBadges.objects.filter(username=user, badge_name=badge)
+            if ownedX:
+                doesExist = True
+
+            if not doesExist:
+                OwnedBadges.objects.create(username=user, badge_name=badge)
+
+        gameXX = Game.objects.get(game_name=game.game_name)
+        if gameXX.play_count == 1:
+            badge_nameX = game.game_name + " First Score"
+            badgeX = Badge.objects.get(game_name=game, badge_name=badge_nameX)
+            OwnedBadges.objects.create(username=user, badge_name=badgeX)
         return redirect('viewScoreSubmissions')
     return render(request, 'cupApp/scoreSubmission.html', {'submission': submission})
 
@@ -370,6 +401,13 @@ def suggestGame(request):
             else:
                 suggestion = Suggestion.objects.create(username=account, detail=suggest_detail)
 
+            user = Account.objects.get(username=request.session['username'])
+            suggestions = Suggestion.objects.filter(username=user)
+            count = suggestions.count()
+            if count >= 5:
+                badge = Badge.objects.get(badge_name="Thinker")
+                OwnedBadges.objects.create(username=user, badge_name=badge)
+
             return redirect('index')
         else:
             error = "You must fill the name and description fields"
@@ -474,10 +512,19 @@ def addGame(request):
             category3 = None
         else:
             category3 = get_object_or_404(Category, pk=category3_name)
+
         game = Game.objects.create(game_name=game_name, link=game_link, type=game_type,
                                    thumbnail=game_thumbnail, about_text=game_about, how_to_play_text=how_to_play,
                                    category1=category1, category2=category2, category3=category3, play_count=0, )
-
+        tester_link = "https://i.hizliresim.com/WXM3Lm.png"
+        play_10_link = "https://i.hizliresim.com/3ObGn0.png"
+        play_100_link = "https://i.hizliresim.com/Rg7zl7.png"
+        b_10_name = game_name + " 10"
+        b_100_name = game_name + " 100"
+        tester_name = game_name + " First Score"
+        Badge.objects.create(game_name=game, badge_name=b_10_name, thumbnail=play_10_link)
+        Badge.objects.create(game_name=game, badge_name=b_100_name, thumbnail=play_100_link)
+        Badge.objects.create(game_name=game, badge_name=tester_name, thumbnail=tester_link)
         return redirect('adminpanel')
     else:
         return render(request, 'cupApp/addGame.html', {'categorys': categorys})

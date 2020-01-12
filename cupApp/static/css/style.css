@@ -1348,3 +1348,15 @@ select option {
     background-color: #E0AE43;
     color: #2B2B2B;
 }
+
+.categoryFavorite{
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.categoryFavorite button{
+    font-size:15px;
+    background-color: #E0AE43;
+    color: #222222;
+}
