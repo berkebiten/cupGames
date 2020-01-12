@@ -6,6 +6,22 @@
         .ingredients {
             height: 150vh;
         }
+
+        {% if account.type == "PU" %}
+            .profileCard img {
+                border: 4px solid #C64539;
+            }
+            .about2, .gamesprofile, .profilestats, .badges{
+                background-color:#C64539;
+            }
+        {% elif account.type == "AD" %}
+            .profileCard img {
+                border: 4px solid #E0AE43;
+            }
+            .about2, .gamesprofile, .profilestats, .badges{
+                background-color:#6A6B4E;
+            }
+        {% endif %}
     </style>
     <div class="profileFunctions">
         {% if account.username == request.session.username %}
@@ -39,11 +55,11 @@
             <div class="profileCard">
                 <img style="width: 100%; height: 10%;" src="{{ account.profile_pic }}">
                 <h1>{{ account.username }}</h1>
-                <i class="fa fa-money" aria-hidden="true" style="color:goldenrod"></i>
-                {{ account.coins }}
+                <i class="fa fa-money" aria-hidden="true" style="color:goldenrod">{{ account.coins }}</i>
+
                 <br>
-                <i class="fa fa-level-up" aria-hidden="true" style="color:#4CAF50"></i>
-                {{ account.level }}
+                <i class="fa fa-level-up" aria-hidden="true" style="color:#4CAF50">{{ account.level }} Lv</i>
+
             </div>
             <div class="about2">
                 <h2>About Me</h2>
@@ -73,8 +89,6 @@
                                         <h3>Last Score:{{ stats.last_score }}</h3>
                                         <h3>Average Score: {{ stats.average_score }}</h3>
                                         <h3>Rank: {{ stats.rank }}</h3>
-                                    {% else %}
-                                        <p>There is no stats for the selected game.</p>
                                     {% endif %}
                                 {% endfor %}
                             </div>

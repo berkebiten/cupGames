@@ -106,11 +106,13 @@
             <p>Designed as SOFT3111 Course Project</p>
 
         </div>
+        {% if request.session.success %}
         <div class="suggest">
             <a href="{% url 'suggestGame' %}">
                 <button>Suggest a Game</button>
             </a>
         </div>
+        {% endif %}
     </div>
 </div>
 </body>

@@ -21,7 +21,8 @@
         </div>
         <form method="post" style="text-align:center;">
             {% csrf_token %}
-            <button type="submit">CONFIRM</button>
+            <button type="submit" name="confirm">CONFIRM</button>
+            <button type="submit" name="decline">DECLINE</button>
         </form>
     </div>
 {% endblock %}

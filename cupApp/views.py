@@ -1,14 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
 from .models import Account, Game, Category, Statistic, Comment, Score, Suggestion, Badge, Favorite, FavCategory, \
     OwnedBadges, ScoreSubmission
 from django.utils import timezone
 from .forms import RegisterForm
 from datetime import date
-from .tasks import playLimitUpdate
 import datetime
 
 
@@ -220,76 +217,100 @@ def viewScoreSubmissions(request):
 def scoreSubmission(request, pk):
     submission = get_object_or_404(ScoreSubmission, pk=pk)
     if request.method == 'POST':
-        score = submission.score
-        user = submission.user
-        game = submission.game
-        score_date = submission.score_date
-        submission.delete()
-        Score.objects.create(username=user, game_name=game, score=score, score_date=score_date)
-        g_play_count = game.play_count
-        Game.objects.filter(game_name=game.game_name).update(play_count=g_play_count + 1)
-        statistic = Statistic.objects.filter(username=user, game_name=game)
-        statistic = statistic.first()
-        scores = Score.objects.all().order_by('-score')
-        if statistic:
-            for_count = 1
-            for scorex in scores:
-                if scorex.username == user and scorex.game_name == game:
-                    break
-                else:
-                    for_count = for_count + 1
-            tot_score = (statistic.average_score * statistic.play_count) + score
-            play_count = statistic.play_count + 1
-            avg_score = tot_score / play_count
-            Statistic.objects.filter(username=user, game_name=game).update(last_score=score, play_count=play_count,
+        if 'confirm' in request.POST:
+            score = submission.score
+            user = submission.user
+            game = submission.game
+            score_date = submission.score_date
+            submission.delete()
+            Score.objects.create(username=user, game_name=game, score=score, score_date=score_date)
+            g_play_count = game.play_count
+            Game.objects.filter(game_name=game.game_name).update(play_count=g_play_count + 1)
+            statistic = Statistic.objects.filter(username=user, game_name=game)
+            statistic = statistic.first()
+            scores = Score.objects.all().order_by('-score')
+            if statistic:
+                for_count = 1
+                for scorex in scores:
+                    if scorex.username == user and scorex.game_name == game:
+                        break
+                    else:
+                        for_count = for_count + 1
+                tot_score = (statistic.average_score * statistic.play_count) + score
+                play_count = statistic.play_count + 1
+                avg_score = tot_score / play_count
+                Statistic.objects.filter(username=user, game_name=game).update(last_score=score, play_count=play_count,
                                                                            rank=for_count, average_score=avg_score)
-        else:
-            for_count = 1
-            for score in scores:
-                if score.username == user and score.game_name == game:
-                    break
-                else:
-                    for_count = for_count + 1
-            Statistic.objects.create(username=user, game_name=game, last_score=score, play_count=1, average_score=score,
+            else:
+                for_count = 1
+                for score in scores:
+                    if score.username == user and score.game_name == game:
+                        break
+                    else:
+                        for_count = for_count + 1
+                Statistic.objects.create(username=user, game_name=game, last_score=score, play_count=1, average_score=score,
                                      rank=for_count)
-        allStats = Statistic.objects.all()
-        allScores = Score.objects.filter(game_name=game).order_by('score')
-        for_count2 = allScores.count()
-        for eachscore in allScores:
-            userX = eachscore.username
-            gameX = eachscore.game_name
-            Statistic.objects.filter(username=userX, game_name=gameX).update(rank=for_count2)
-            for_count2 = for_count2 - 1
+            allStats = Statistic.objects.all()
+            allScores = Score.objects.filter(game_name=game).order_by('score')
+            for_count2 = allScores.count()
+            for eachscore in allScores:
+                userX = eachscore.username
+                gameX = eachscore.game_name
+                Statistic.objects.filter(username=userX, game_name=gameX).update(rank=for_count2)
+                for_count2 = for_count2 - 1
 
-        related_stat = Statistic.objects.get(username=user, game_name=game)
-        badgeWillbeAssigned = False
-        if related_stat.play_count >= 100:
-            badge_name = game.game_name + " 100"
-            badge = Badge.objects.get(game_name=game, badge_name=badge_name)
-            doesExist = False
-            ownedX = OwnedBadges.objects.filter(username=user, badge_name=badge)
-            if ownedX:
-                doesExist = True
+            related_stat = Statistic.objects.get(username=user, game_name=game)
+            badgeWillbeAssigned = False
+            if related_stat.play_count >= 100:
+                badge_name = game.game_name + " 100"
+                badge = Badge.objects.get(game_name=game, badge_name=badge_name)
+                doesExist = False
+                ownedX = OwnedBadges.objects.filter(username=user, badge_name=badge)
+                if ownedX:
+                    doesExist = True
 
-            if not doesExist:
-                OwnedBadges.objects.create(username=user, badge_name=badge)
+                if not doesExist:
+                    OwnedBadges.objects.create(username=user, badge_name=badge)
 
-        elif related_stat.play_count >= 10:
-            badge_name = game.game_name + " 10"
-            badge = Badge.objects.get(game_name=game, badge_name=badge_name)
-            doesExist = False
-            ownedX = OwnedBadges.objects.filter(username=user, badge_name=badge)
-            if ownedX:
-                doesExist = True
+            elif related_stat.play_count >= 10:
+                badge_name = game.game_name + " 10"
+                badge = Badge.objects.get(game_name=game, badge_name=badge_name)
+                doesExist = False
+                ownedX = OwnedBadges.objects.filter(username=user, badge_name=badge)
+                if ownedX:
+                    doesExist = True
 
-            if not doesExist:
-                OwnedBadges.objects.create(username=user, badge_name=badge)
+                if not doesExist:
+                    OwnedBadges.objects.create(username=user, badge_name=badge)
 
-        gameXX = Game.objects.get(game_name=game.game_name)
-        if gameXX.play_count == 1:
-            badge_nameX = game.game_name + " First Score"
-            badgeX = Badge.objects.get(game_name=game, badge_name=badge_nameX)
-            OwnedBadges.objects.create(username=user, badge_name=badgeX)
+            gameXX = Game.objects.get(game_name=game.game_name)
+            if gameXX.play_count == 1:
+                badge_nameX = game.game_name + " First Score"
+                badgeX = Badge.objects.get(game_name=game, badge_name=badge_nameX)
+                OwnedBadges.objects.create(username=user, badge_name=badgeX)
+
+            if user.type == "FU":
+                needed = 20
+                pluscoin = 100
+            else:
+                needed = 10
+                pluscoin = 200
+
+            statistics_of_user = Statistic.objects.filter(username=user)
+            total_play_count = 0
+
+            for stat in statistics_of_user:
+                total_play_count = total_play_count + stat.play_count
+
+            x_play_count = total_play_count - (user.level * needed)
+
+            if x_play_count >= 0:
+                user.level = user.level + 1
+
+            user.coins = user.coins + pluscoin
+            user.save()
+        if 'decline' in request.POST:
+            submission = get_object_or_404(ScoreSubmission, pk=pk).delete()
         return redirect('viewScoreSubmissions')
     return render(request, 'cupApp/scoreSubmission.html', {'submission': submission})
 
